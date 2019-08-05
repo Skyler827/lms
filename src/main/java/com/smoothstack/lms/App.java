@@ -15,6 +15,11 @@ public class App
     {
         if (args.length == 0) {
             usage();
+        } else {
+            System.out.println("hello world, here are your args:");
+            for (int i=0; i< args.length; i++) {
+                System.out.println(args[i]);
+            }
         }
     }
     public static void usage() {
