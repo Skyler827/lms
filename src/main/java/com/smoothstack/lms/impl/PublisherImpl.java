@@ -11,7 +11,7 @@ import com.smoothstack.lms.dao.PublisherDao;
 import com.smoothstack.lms.entities.Publisher;
 
 public class PublisherImpl implements PublisherDao {
-    private static final String CSV_FILE_PATH = "resources/publishers.csv";
+    private static final String PUB_CSV_FILE_PATH = "resources/publishers.csv";
 
     private Publisher p;
     private int id;
@@ -26,7 +26,7 @@ public class PublisherImpl implements PublisherDao {
     public static List<PublisherDao> getAll() {
         ArrayList<PublisherDao> publishers =  new ArrayList<PublisherDao>();
         try {
-            BufferedReader csvReader = new BufferedReader(new FileReader(CSV_FILE_PATH));
+            BufferedReader csvReader = new BufferedReader(new FileReader(PUB_CSV_FILE_PATH));
             String row;
             while ((row = csvReader.readLine()) != null) {
                 publishers.add(new PublisherImpl(row));

@@ -1,6 +1,10 @@
 package com.smoothstack.lms.impl;
 
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import com.smoothstack.lms.dao.AuthorDao;
 import com.smoothstack.lms.dao.BookDao;
@@ -8,14 +12,31 @@ import com.smoothstack.lms.dao.PublisherDao;
 import com.smoothstack.lms.entities.Book;
 
 public class BookImpl implements BookDao {
-    private static final String CSV_FILENAME = "resources/books.csv";
+    private static final String BOOK_CSV_FILE_PATH = "resources/books.csv";
     Book b;
 
-    public BookImpl(String CsvRow) {
-
+    public BookImpl(String csvRow) {
+        b = new Book();
+        String[] data = csvRow.split(",");
+        b.setIsbn(Integer.parseInt(data[0]));
+        b.setTitle(data[1]);
+        b.setPublicationYear(Integer.parseInt(data[4]));
     }
     public static List<BookDao> getAll() {
-        return new ArrayList<BookDao>();
+        List<BookDao> books = new ArrayList<BookDao>();
+        try {
+            BufferedReader csvReader = new BufferedReader(new FileReader(BOOK_CSV_FILE_PATH));
+            String row;
+            while ((row = csvReader.readLine()) != null) {
+                books.add(new BookImpl(row));
+            }
+            csvReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return books;
     }
     public static List<BookDao> searchByName(String s) {
         return new ArrayList<BookDao>();
@@ -61,6 +82,10 @@ public class BookImpl implements BookDao {
     @Override
     public void setPublicationYear(int y) {
         b.setPublicationYear(y);
+    }
+    @Override
+    public String toString() {
+        return "Book "+b.getIsbn()+": "+b.getTitle();
     }
 
 }

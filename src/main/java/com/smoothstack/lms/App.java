@@ -2,7 +2,11 @@ package com.smoothstack.lms;
 
 import java.util.List;
 
+import com.smoothstack.lms.dao.AuthorDao;
+import com.smoothstack.lms.dao.BookDao;
 import com.smoothstack.lms.dao.PublisherDao;
+import com.smoothstack.lms.impl.AuthorImpl;
+import com.smoothstack.lms.impl.BookImpl;
 import com.smoothstack.lms.impl.PublisherImpl;
 
 import java.io.IOException;
@@ -19,14 +23,20 @@ public class App
     {
         if (args.length == 0) {
             usage();
-        } else {
-            if (args[0].equals("list") && args.length > 1) {
-                if (args[1].equals("publishers")) {
-                    for (PublisherDao p : PublisherImpl.getAll()) {
-                        System.out.println(p);
-                    }
-                }
+            return;
+        }
+        switch (args[0]) {
+        case "list":
+            if (args.length == 1) {
+                usage();
+                return;
             }
+            switch (args[1]) {
+                case "authors": listAuthors(); break;
+                case "books": listBooks(); break;
+                case "publishers": listPublishers(); break;
+            }
+            break;
         }
     }
     public static void usage() {
@@ -37,6 +47,21 @@ public class App
             }
         } catch (IOException e) {
             System.out.println(e);
+        }
+    }
+    public static void listBooks() {
+        for (BookDao b : BookImpl.getAll()) {
+            System.out.println(b);
+        }
+    }
+    public static void listAuthors() {
+        for (AuthorDao a : AuthorImpl.getAuthors()) {
+            System.out.println(a);
+        }
+    }
+    public static void listPublishers() {
+        for (PublisherDao p : PublisherImpl.getAll()) {
+            System.out.println(p);
         }
     }
 }
