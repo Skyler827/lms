@@ -12,7 +12,7 @@ import com.smoothstack.lms.dao.PublisherDao;
 import com.smoothstack.lms.entities.Book;
 
 public class BookImpl implements BookDao {
-    private static final String BOOK_CSV_FILE_PATH = "resources/books.csv";
+    public static final String BOOK_CSV_FILE_PATH = "resources/books.csv";
     Book b;
 
     public BookImpl(String csvRow) {
@@ -87,5 +87,12 @@ public class BookImpl implements BookDao {
     public String toString() {
         return "Book "+b.getIsbn()+": "+b.getTitle();
     }
+    public String csvFilePath() {
+        return BOOK_CSV_FILE_PATH;
+    }
 
+    @Override
+    public int getId() {
+        return b.getIsbn();
+    }
 }

@@ -83,4 +83,12 @@ public class PublisherImpl implements PublisherDao {
     public String toString() {
         return "Publisher "+id+":"+p.getName();
     }
+    public String csvFilePath() {
+        return PUB_CSV_FILE_PATH;
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
 }

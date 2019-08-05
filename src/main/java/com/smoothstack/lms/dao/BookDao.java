@@ -1,6 +1,9 @@
 package com.smoothstack.lms.dao;
 
 public interface BookDao {
+
+    public int getId();
+    
     public String getTitle();
     public void setTitle(String s);
 

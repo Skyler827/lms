@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface PublisherDao {
 
+    public int getId();
     public String getName();
     public void setName(String s);
     public int getFoundingYear();
