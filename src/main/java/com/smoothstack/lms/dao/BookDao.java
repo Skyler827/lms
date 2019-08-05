@@ -9,4 +9,7 @@ public interface BookDao {
 
     public PublisherDao getPublisher();
     public void setPublisher(PublisherDao p);
+
+    public int getPublicationYear();
+    public void setPublicationYear(int y);
 }

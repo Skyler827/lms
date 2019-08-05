@@ -8,8 +8,12 @@ import com.smoothstack.lms.dao.PublisherDao;
 import com.smoothstack.lms.entities.Book;
 
 public class BookImpl implements BookDao {
+    private static final String CSV_FILENAME = "resources/books.csv";
     Book b;
 
+    public BookImpl(String CsvRow) {
+
+    }
     public static List<BookDao> getAll() {
         return new ArrayList<BookDao>();
     }
@@ -48,5 +52,15 @@ public class BookImpl implements BookDao {
     public void setPublisher(PublisherDao p) {
 		
 	}
+
+    @Override
+    public int getPublicationYear() {
+        return b.getPublicationYear();
+    }
+
+    @Override
+    public void setPublicationYear(int y) {
+        b.setPublicationYear(y);
+    }
 
 }

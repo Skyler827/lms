@@ -1,6 +1,10 @@
 package com.smoothstack.lms;
 
 import java.util.List;
+
+import com.smoothstack.lms.dao.PublisherDao;
+import com.smoothstack.lms.impl.PublisherImpl;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,9 +20,12 @@ public class App
         if (args.length == 0) {
             usage();
         } else {
-            System.out.println("hello world, here are your args:");
-            for (int i=0; i< args.length; i++) {
-                System.out.println(args[i]);
+            if (args[0].equals("list") && args.length > 1) {
+                if (args[1].equals("publishers")) {
+                    for (PublisherDao p : PublisherImpl.getAll()) {
+                        System.out.println(p);
+                    }
+                }
             }
         }
     }

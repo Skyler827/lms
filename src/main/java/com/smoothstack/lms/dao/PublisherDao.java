@@ -6,6 +6,9 @@ public interface PublisherDao {
 
     public String getName();
     public void setName(String s);
+    public int getFoundingYear();
+    public void setFoundingYear(int y);
+
     public List<BookDao> getBooks();
     public void addBook(BookDao b);
     public void removeBook(BookDao b);
