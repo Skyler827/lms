@@ -1,0 +1,53 @@
+Welcome to Skyler's Library Management System!
+
+Usage:
+    lms list books
+        Dump list of all books
+
+    lms search books $SEARCH_TERM
+        search books by title, author, or publisher name, and shows relevant
+        results
+
+    lms add book
+        starts an interactive session where LMS asks the user for a book name,
+        author, publisher, and other details
+
+    lms update book $ISBN
+        starts an interactive session where LMS asks the user what detail to
+        update, what the new information is, and writes the updated information
+        on the given book to the file
+
+    lms delete book $ISBN
+        after confirming with the user, deletes a book with the given ID and
+        updates the file
+
+    lms list authors
+        Dump list of all authors
+
+    lms search authors $SEARCH_TERM
+        search authors by name and shows a list of relevant results
+
+    lms add author
+        starts an interactive session where LMS asks the user for an author
+        name, and other details
+
+    lms update author $AUTHOR_ID
+        starts an interactive session where LMS asks the user what detail to
+        update, what to change it to, and writes it to the file
+
+    lms delete author $AUTHOR_ID
+        after confirming with the user, deletes an author with a given ID and
+        updates the file
+
+    lms list publishers
+        Dump list of all publishers
+
+    lms search publishers $SEARCH_TERM
+        search publishers by name
+
+    lms update publisher $PUBLISHER_ID
+        starts an interactive session
+
+    lms delete publisher $PUBLISHER_ID
+        after confirming with the user, deletes a publisher with a given ID and
+        updates the file
