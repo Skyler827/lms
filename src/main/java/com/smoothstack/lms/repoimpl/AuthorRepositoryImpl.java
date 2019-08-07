@@ -10,15 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.smoothstack.lms.dao.Author;
+import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.impl.AuthorImpl;
 import com.smoothstack.lms.repositories.AuthorRepository;
+import com.smoothstack.lms.repositories.DaoRepo;
 
-public class AuthorRepositoryImpl implements AuthorRepository {
+public class AuthorRepositoryImpl<AuthorData> implements DaoRepo<AuthorData> {
     public static final String AUTHOR_CSV_FILE_PATH = "resources/authors.csv";
     public static final String NEXT_ID_FILE_PATH = "resources/nextId/author.txt";
 
-    public List<Author> getAuthors() {
-        ArrayList<Author> authors = new ArrayList<Author>();
+    public List<Dao<AuthorData>> getAuthors() {
+        ArrayList<Dao<AuthorData>> authors = new ArrayList<Dao<AuthorData>>();
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH));
             String row;
@@ -33,9 +35,9 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         }
         return authors;
     }
-    public void writeAuthors(List<Author> authors) {
+    public void writeAuthors(List<Dao<AuthorData>> authors) {
         try (FileWriter csvWriter = new FileWriter(AUTHOR_CSV_FILE_PATH)) {
-            for (Author ad : authors) {
+            for (Dao<AuthorData> ad : authors) {
                 csvWriter.write(ad.csvRow()+"\n");
             }
         } catch (FileNotFoundException e) {
@@ -45,14 +47,15 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         }
 
     }
-    public List<Author> searchByName(String s) {
-        ArrayList<Author> authors = new ArrayList<Author>();
+    public List<Dao<AuthorData>> searchByName(String s) {
+        ArrayList<Dao<AuthorData>> authors = new ArrayList<Dao<AuthorData>>();
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH));
             String row;
             while ((row = csvReader.readLine()) != null) {
                 AuthorImpl currAuthor = new AuthorImpl(row);
-                if ((currAuthor.getFirstName() + currAuthor.getLastName()).contains(s)) {
+                if ((currAuthor.getData().getFirstName() + currAuthor.getData().getLastName())
+                        .contains(s)) {
                     authors.add(currAuthor);
                 }
             }
@@ -106,22 +109,29 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         return nextId;
     }
 
-    @Override
-    public Author create(String firstName, String lastName) {
-        AuthorImpl a = new AuthorImpl(getNewId());
-        List<Author> authors = getAuthors();
-        authors.add(a);
-        writeAuthors(authors);
-        return a;
-    }
-
-    @Override
-    public void update(int id, String firstName, String lastName) {
-
-    }
 
     @Override
     public void delete(int id) {
 
     }
+
+    @Override
+    public List<Dao<AuthorData>> getAll() {
+        return null;
+    }
+
+    @Override
+    public void writeAll(List<Dao<AuthorData>> data) {
+
+    }
+
+    @Override
+    public void create(AuthorData data) {
+
+    }
+
+    @Override
+    public void update(int id, AuthorData data) {
+
+	}
 }

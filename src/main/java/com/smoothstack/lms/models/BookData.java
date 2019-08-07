@@ -1,6 +1,11 @@
-package com.smoothstack.lms.dataclasses;
+package com.smoothstack.lms.models;
 
-public class BookData {
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.smoothstack.lms.dao.CsvSerializable;
+
+public class BookData implements CsvSerializable {
     private String title;
     private int authorId;
     private int publisherId;
@@ -38,4 +43,24 @@ public class BookData {
     public void setPublicationYear(int y) {
         publicationYear = y;
     }
+
+    @Override
+    public String toCsvRow() {
+        return null;
+    }
+
+    @Override
+    public void populate(String csvRow) {
+
+    }
+
+    @Override
+    public Path csvFilePath() {
+        return Paths.get("resources", "books.csv");
+    }
+
+    @Override
+    public Path nextIdFilePath() {
+		return Paths.get("resources","nextId","book.txt");
+	}
 }

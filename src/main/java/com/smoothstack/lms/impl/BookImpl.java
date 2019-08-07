@@ -1,17 +1,11 @@
 package com.smoothstack.lms.impl;
 
-import java.util.List;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import com.smoothstack.lms.dao.Author;
-import com.smoothstack.lms.dao.Book;
-import com.smoothstack.lms.dao.Publisher;
-import com.smoothstack.lms.dataclasses.BookData;
+import com.smoothstack.lms.dao.Dao;
+import com.smoothstack.lms.models.AuthorData;
+import com.smoothstack.lms.models.BookData;
+import com.smoothstack.lms.models.PublisherData;
 
-public class BookImpl implements Book {
+public class BookImpl implements Dao<BookData> {
     public static final String BOOK_CSV_FILE_PATH = "resources/books.csv";
     BookData b;
 
@@ -30,64 +24,34 @@ public class BookImpl implements Book {
         b = bd;
     }
 
-    public static List<Book> getAll() {
-        List<Book> books = new ArrayList<Book>();
-        try {
-            BufferedReader csvReader = new BufferedReader(new FileReader(BOOK_CSV_FILE_PATH));
-            String row;
-            while ((row = csvReader.readLine()) != null) {
-                books.add(new BookImpl(row));
-            }
-            csvReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return books;
-    }
-    public static List<Book> searchByName(String s) {
-        return new ArrayList<Book>();
-    }
-    public static void putBook(Book b) {};
-    public static void deleteBook(Book b) {};
-
-    @Override
     public String getTitle() {
         return null;
     }
 
-    @Override
     public void setTitle(String s) {
 
     }
 
-    @Override
-    public Author getAuthor() {
+    public Dao<AuthorData> getAuthor() {
         return null;
     }
 
-    @Override
-    public void setAuthor(Author a) {
+    public void setAuthor(Dao<AuthorData> a) {
 
     }
 
-    @Override
-    public Publisher getPublisher() {
+    public Dao<PublisherData> getPublisher() {
         return null;
     }
 
-    @Override
-    public void setPublisher(Publisher p) {
+    public void setPublisher(Dao<PublisherData> p) {
 		
 	}
 
-    @Override
     public int getPublicationYear() {
         return b.getPublicationYear();
     }
 
-    @Override
     public void setPublicationYear(int y) {
         b.setPublicationYear(y);
     }
@@ -107,5 +71,15 @@ public class BookImpl implements Book {
     @Override
     public String csvRow() {
         return null;
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void delete() {
+
     }
 }

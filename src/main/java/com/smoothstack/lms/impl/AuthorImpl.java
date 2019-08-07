@@ -8,13 +8,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.smoothstack.lms.dao.Author;
-import com.smoothstack.lms.dao.Book;
-import com.smoothstack.lms.dataclasses.AuthorData;
+import com.smoothstack.lms.dao.Dao;
+import com.smoothstack.lms.models.AuthorData;
+import com.smoothstack.lms.models.BookData;
 import com.smoothstack.lms.repoimpl.AuthorRepositoryImpl;
 import static com.smoothstack.lms.repoimpl.AuthorRepositoryImpl.AUTHOR_CSV_FILE_PATH;
 
-public class AuthorImpl implements Author {
+public class AuthorImpl implements Dao<AuthorData> {
 
     private static AuthorRepositoryImpl repo;
     private AuthorData a;
@@ -30,15 +30,15 @@ public class AuthorImpl implements Author {
         a.setFirstName(data[1]);
         a.setLastName(data[2]);
     }
-
+    @Override
     public AuthorData getData() {
         return a;
     }
     public void setData(AuthorData ad) {
         a = ad;
     }
-    @Override
-	public List<Book> getBooks() {
+
+	public List<Dao<BookData>> getBooks() {
         // read books
         // for each book record, record it if this is it's author
         return BookImpl.getAll().stream()
@@ -60,28 +60,23 @@ public class AuthorImpl implements Author {
         return id+","+a.getFirstName()+","+a.getLastName();
     }
 
-    @Override
     public String getFirstName() {
         return a.getFirstName();
     }
 
-    @Override
     public void setFirstName(String fName) {
         a.setFirstName(fName);
     }
 
-    @Override
     public String getLastName() {
         return a.getLastName();
     }
 
-    @Override
     public void setLastName(String lName) {
         a.setLastName(lName);
     }
 
 
-    @Override
     public void save() {
         List<Author> authors = repo.getAuthors();
         for (Author a : authors) {
