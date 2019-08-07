@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.smoothstack.lms.dao.CsvSerializable;
 
-public class AuthorData implements CsvSerializable{
+public class Author implements CsvSerializable{
     private String firstName;
     private String lastName;
 
@@ -34,17 +34,8 @@ public class AuthorData implements CsvSerializable{
         firstName = split.stream().reduce("", (s1, s2) -> s1+","+s2);
     }
 
-    public AuthorData(String csvRow) {
+    public Author(String csvRow) {
         this.populate(csvRow);
     }
 
-    @Override
-    public Path csvFilePath() {
-        return Paths.get("resources", "authors.csv");
-    }
-
-    @Override
-    public Path nextIdFilePath() {
-		return Paths.get("resources","nextId","author.txt");
-	}
 }

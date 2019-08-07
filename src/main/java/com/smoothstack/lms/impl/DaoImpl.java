@@ -16,6 +16,9 @@ public class DaoImpl<T extends CsvSerializable> implements Dao<T>, CsvSerializab
         this._id = id;
         this._data = data;
     }
+    public DaoImpl(String csvRow) {
+        
+    }
 
     @Override
     public int getId() {
@@ -44,7 +47,7 @@ public class DaoImpl<T extends CsvSerializable> implements Dao<T>, CsvSerializab
 
     @Override
     public String toCsvRow() {
-        return String.valueOf(_id)+ ","+_data.toCsvRow();
+        return String.valueOf(_id)+ ","+_data.toCsvRow()+"/n";
     }
 
     @Override
@@ -53,15 +56,5 @@ public class DaoImpl<T extends CsvSerializable> implements Dao<T>, CsvSerializab
         _id = Integer.parseInt(data.remove(0));
         _data.populate(data.stream().reduce("",(s1,s2) -> s1+","+s2));
     }
-
-    @Override
-    public Path csvFilePath() {
-        return _data.csvFilePath();
-    }
-
-    @Override
-    public Path nextIdFilePath() {
-        return _data.nextIdFilePath();
-	}
 
 }

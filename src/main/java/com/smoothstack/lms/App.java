@@ -6,8 +6,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import com.smoothstack.lms.services.AuthorService;
+import com.smoothstack.lms.services.BookService;
+import com.smoothstack.lms.services.PublisherService;
 /**
  * Hello world!
+ * 
+ * @param <AuthorService>
  *
  */
 public class App {
@@ -24,5 +29,36 @@ public class App {
         } catch (IOException e) {
             System.out.println(e);
         }
+    }
+    private static AuthorService as;
+    public static AuthorService getAuthorService() {
+        if (as == null) {
+            synchronized(App.class) {
+                if (as == null) {
+                    as = new AuthorService();
+                }
+            }
+        }
+        return as;
+    }
+    private static BookService bs;
+    public static BookService getBookService() {
+        if (bs == null) {
+            synchronized (App.class) {
+                if (bs == null) {
+                    bs = new BookService();
+                }
+            }
+        }
+        return bs;
+    }
+    private static PublisherService ps;
+    public static PublisherService getPublisherService() {
+        if (ps == null) {
+            synchronized (App.class) {
+                ps = new PublisherService();
+            }
+        }
+        return ps;
     }
 }

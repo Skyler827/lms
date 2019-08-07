@@ -1,10 +1,12 @@
 package com.smoothstack.lms.models;
 
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import com.smoothstack.lms.dao.CsvSerializable;
 
-public class PublisherData implements CsvSerializable {
+public class Publisher implements CsvSerializable {
     private String name;
     private int foundingYear;
 
@@ -23,21 +25,12 @@ public class PublisherData implements CsvSerializable {
 
     @Override
     public String toCsvRow() {
-        return null;
+        return name+","+String.valueOf(foundingYear);
     }
 
     @Override
     public void populate(String csvRow) {
-
+        List<String> data = Arrays.asList(csvRow.split(","));
     }
 
-    @Override
-    public Path csvFilePath() {
-        return null;
-    }
-
-    @Override
-    public Path nextIdFilePath() {
-		return null;
-	}
 }
