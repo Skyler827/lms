@@ -108,15 +108,15 @@ public class Parser {
         if (args.length == 1) {Menus.search(); return;}
         switch (args[1]) {
         case "authors":
-            if (args.length == 2) AuthorService.search();
+            if (args.length == 2) AuthorService.search(Menus.getBufferedReader());
             else AuthorService.search(args[2]);
             break;
         case "books":
-            if (args.length == 2) BookService.search();
+            if (args.length == 2) BookService.search(Menus.getBufferedReader());
             else BookService.search(args[2]);
             break;
         case "publishers":
-            if (args.length == 2) PublisherService.search();
+            if (args.length == 2) PublisherService.search(Menus.getBufferedReader());
             else PublisherService.search(args[2]);
             break;
         }
@@ -127,7 +127,7 @@ public class Parser {
         case "author":
             switch (args.length) {
             case 2:
-                AuthorService.update();
+                AuthorService.update(Menus.getBufferedReader());
                 break;
             case 5:
                 int id = Integer.parseInt(args[2]);
@@ -146,7 +146,7 @@ public class Parser {
         case "book":
             switch (args.length) {
             case 2:
-                BookService.update();
+                BookService.update(Menus.getBufferedReader());
                 break;
             case 4:
                 int id = Integer.parseInt(args[2]);
@@ -163,7 +163,7 @@ public class Parser {
         case "publisher":
             switch (args.length) {
             case 2:
-                PublisherService.update();
+                PublisherService.update(Menus.getBufferedReader());
                 break;
             case 4:
                 break;

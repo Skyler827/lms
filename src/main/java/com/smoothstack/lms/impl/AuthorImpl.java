@@ -1,6 +1,7 @@
 package com.smoothstack.lms.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -68,17 +69,12 @@ public class AuthorImpl implements AuthorDao {
     }
 
     @Override
-    public void putBook(BookDao b) {
-    }
-
-    @Override
-    public void removeBook(BookDao b) {
-
-    }
-
-    @Override
 	public List<BookDao> getBooks() {
-		return null;
+        // read books
+        // for each book record, record it if this is it's author
+        return BookImpl.getAll().stream()
+        .filter((BookDao b) -> b.getAuthor().getId()==this.id)
+        .collect(Collectors.toList());
     }
     @Override
     public String toString() {

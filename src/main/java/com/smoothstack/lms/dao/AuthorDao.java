@@ -15,8 +15,5 @@ public interface AuthorDao {
     public void save();
     public void delete();
 
-
-    public void putBook(BookDao b);
-    public void removeBook(BookDao b);
     public List<BookDao> getBooks();
 }

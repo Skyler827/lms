@@ -127,9 +127,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.search(); break;
-            case 2: BookService.search(); break;
-            case 3: PublisherService.search(); break;
+            case 1: AuthorService.search(getBufferedReader()); break;
+            case 2: BookService.search(getBufferedReader()); break;
+            case 3: PublisherService.search(getBufferedReader()); break;
             default: System.out.println("Selection out of range");
             }
         } while (choice != 0);
@@ -189,9 +189,9 @@ public class Menus {
             }
             switch (choice) {
                 case 0: break;
-                case 1: AuthorService.update();
-                case 2: BookService.update();
-                case 3: PublisherService.update();
+                case 1: AuthorService.update(getBufferedReader());
+                case 2: BookService.update(getBufferedReader());
+                case 3: PublisherService.update(getBufferedReader());
             }
         } while (choice != 0);
     }
@@ -219,9 +219,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.delete(); break;
-            case 2: BookService.delete(); break;
-            case 3: PublisherService.delete(); break;
+            case 1: AuthorService.delete(getBufferedReader()); break;
+            case 2: BookService.delete(getBufferedReader()); break;
+            case 3: PublisherService.delete(getBufferedReader()); break;
             default: System.out.println("Selection out of range");
             }
         } while (choice != 0);

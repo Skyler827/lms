@@ -11,12 +11,12 @@ public class BookService {
             System.out.println(b);
         }
     }
-    public static void search() {}
+    public static void search(BufferedReader r) {}
     public static void search(String s) {}
-    public static void add(BufferedReader bufferedReader) {}
+    public static void add(BufferedReader r) {}
     public static void add(String title, int authorId, int publisherId, int publicationYear) {}
-    public static void update() {}
+    public static void update(BufferedReader r) {}
     public static void update(int isbn, String name) {}
-    public static void delete() {}
+    public static void delete(BufferedReader r) {}
     public static void delete(int isbn) {}
 }
