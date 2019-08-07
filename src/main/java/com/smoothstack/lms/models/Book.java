@@ -1,11 +1,11 @@
 package com.smoothstack.lms.models;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
 import com.smoothstack.lms.dao.CsvSerializable;
+import com.smoothstack.lms.dao.Dao;
+import com.smoothstack.lms.repositories.DaoRepository;
 
 public class Book implements CsvSerializable {
     private String title;
@@ -19,6 +19,13 @@ public class Book implements CsvSerializable {
     }
     public void setTitle(String s) {
         title = s;
+    }
+
+    public Dao<Author> getAuthor(DaoRepository<Author> repo) {
+        return repo.searchById(authorId);
+    }
+    public Dao<Publisher> getPublisher(DaoRepository<Publisher> repo) {
+        return repo.searchById(publisherId);
     }
 
     public int getAuthorId() {

@@ -1,10 +1,12 @@
 package com.smoothstack.lms.models;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.smoothstack.lms.dao.CsvSerializable;
+import com.smoothstack.lms.dao.Dao;
+import com.smoothstack.lms.repositories.DaoRepository;
 
 public class Publisher implements CsvSerializable {
     private String name;
@@ -31,6 +33,12 @@ public class Publisher implements CsvSerializable {
     @Override
     public void populate(String csvRow) {
         List<String> data = Arrays.asList(csvRow.split(","));
+        name = data.get(0);
+        foundingYear = Integer.parseInt(data.get(1));
     }
-
+    public List<Dao<Book>> getBooks(DaoRepository<Book> repo, int pubisherId) {
+        return repo.getAll().stream()
+        .filter(b -> b.getData().getPublisherId() == pubisherId)
+        .collect(Collectors.toList());
+    }
 }

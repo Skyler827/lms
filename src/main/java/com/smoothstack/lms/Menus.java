@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.smoothstack.lms.services.AuthorService;
-import com.smoothstack.lms.services.BookService;
-import com.smoothstack.lms.services.PublisherService;
-
 public class Menus {
     private static BufferedReader _reader;
     public static BufferedReader getBufferedReader() {
@@ -96,9 +92,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.list(); break;
-            case 2: BookService.list(); break;
-            case 3: PublisherService.list(); break;
+            case 1: App.getAuthorService().list(); break;
+            case 2: App.getBookService().list(); break;
+            case 3: App.getPublisherService().list(); break;
             default: System.out.println("Selection out of range\n");
             }
         } while (choice != 0);
@@ -127,9 +123,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.search(getBufferedReader()); break;
-            case 2: BookService.search(getBufferedReader()); break;
-            case 3: PublisherService.search(getBufferedReader()); break;
+            case 1: App.getAuthorService().search(getBufferedReader()); break;
+            case 2: App.getBookService().search(getBufferedReader()); break;
+            case 3: App.getPublisherService().search(getBufferedReader()); break;
             default: System.out.println("Selection out of range");
             }
         } while (choice != 0);
@@ -158,9 +154,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.add(getBufferedReader()); break;
-            case 2: BookService.add(getBufferedReader()); break;
-            case 3: PublisherService.add(getBufferedReader()); break;
+            case 1: App.getAuthorService().add(getBufferedReader()); break;
+            case 2: App.getBookService().add(getBufferedReader()); break;
+            case 3: App.getPublisherService().add(getBufferedReader()); break;
             default: System.out.println("Selection out of range.");
             }
         } while (choice != 0);
@@ -189,9 +185,9 @@ public class Menus {
             }
             switch (choice) {
                 case 0: break;
-                case 1: AuthorService.update(getBufferedReader());
-                case 2: BookService.update(getBufferedReader());
-                case 3: PublisherService.update(getBufferedReader());
+                case 1: App.getAuthorService().update(getBufferedReader());
+                case 2: App.getBookService().update(getBufferedReader());
+                case 3: App.getPublisherService().update(getBufferedReader());
             }
         } while (choice != 0);
     }
@@ -219,9 +215,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.delete(getBufferedReader()); break;
-            case 2: BookService.delete(getBufferedReader()); break;
-            case 3: PublisherService.delete(getBufferedReader()); break;
+            case 1: App.getAuthorService().delete(getBufferedReader()); break;
+            case 2: App.getBookService().delete(getBufferedReader()); break;
+            case 3: App.getPublisherService().delete(getBufferedReader()); break;
             default: System.out.println("Selection out of range");
             }
         } while (choice != 0);

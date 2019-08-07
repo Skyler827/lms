@@ -6,10 +6,6 @@ import java.util.List;
 import com.smoothstack.lms.App;
 import com.smoothstack.lms.Menus;
 
-import com.smoothstack.lms.services.AuthorService;
-import com.smoothstack.lms.services.BookService;
-import com.smoothstack.lms.services.PublisherService;
-
 public class Parser {
     static void parse(String[] args) {
         if (args.length == 0) {Menus.mainMenu(); return;}
@@ -26,9 +22,9 @@ public class Parser {
     private static void list(String[] args) {
         if (args.length == 1) {Menus.list(); return;}
         switch (args[1]) {
-            case "authors": AuthorService.list(); break;
-            case "books": BookService.list(); break;
-            case "publishers": PublisherService.list(); break;
+            case "authors": App.getAuthorService().list(); break;
+            case "books": App.getBookService().list(); break;
+            case "publishers": App.getPublisherService().list(); break;
             default: App.help(args);
         }
     }
@@ -38,21 +34,21 @@ public class Parser {
         case "author":
             List<String> nameArr;
             switch (args.length) {
-            case 2: AuthorService.add(Menus.getBufferedReader()); break;
+            case 2: App.getAuthorService().add(Menus.getBufferedReader()); break;
             case 3:
                 String fullName = args[2];
                 nameArr = Arrays.asList(args[2].split(" "));
-                if (nameArr.size() == 1) AuthorService.add("", fullName);
+                if (nameArr.size() == 1) App.getAuthorService().add("", fullName);
                 else {
                     String lastWord = nameArr.get(nameArr.size()-1);
                     nameArr.remove(nameArr.size()-1);
                     String otherWords = nameArr.stream().reduce(
                         "", (String s1, String s2) -> s1+" "+s2);
-                    AuthorService.add(otherWords, lastWord);
+                    App.getAuthorService().add(otherWords, lastWord);
                 }
                 break;
             case 4:
-                AuthorService.add(args[2],args[3]);
+                App.getAuthorService().add(args[2],args[3]);
                 break;
             default:
                 nameArr = Arrays.asList(args);
@@ -62,20 +58,20 @@ public class Parser {
                 nameArr.remove(nameArr.size()-1);
                 String otherWords = nameArr.stream().reduce(
                     "", (String s1, String s2) -> s1+" "+s2);
-                AuthorService.add(otherWords, lastWord);
+                App.getAuthorService().add(otherWords, lastWord);
             break;
         }
         case "book":
             switch (args.length) {
             case 2:
-                BookService.add(Menus.getBufferedReader());
+                App.getBookService().add(Menus.getBufferedReader());
                 break;
             case 6:
                 String title = args[2];
                 int authorId = Integer.parseInt(args[3]);
                 int publisherId = Integer.parseInt(args[4]);
                 int publicationYear = Integer.parseInt(args[5]);
-                BookService.add(title, authorId, publisherId, publicationYear);
+                App.getBookService().add(title, authorId, publisherId, publicationYear);
                 break;
             default:
                 System.out.println("lms add book requires 4 parameters as follows:");
@@ -86,10 +82,10 @@ public class Parser {
         case "publisher":
             switch (args.length) {
             case 2:
-                PublisherService.add(Menus.getBufferedReader());
+                App.getPublisherService().add(Menus.getBufferedReader());
                 break;
             case 3:
-                PublisherService.add(args[2]);
+                App.getPublisherService().add(args[2]);
                 break;
             default:
                 List<String> publisherNameArr = Arrays.asList(args);
@@ -108,16 +104,16 @@ public class Parser {
         if (args.length == 1) {Menus.search(); return;}
         switch (args[1]) {
         case "authors":
-            if (args.length == 2) AuthorService.search(Menus.getBufferedReader());
-            else AuthorService.search(args[2]);
+            if (args.length == 2) App.getAuthorService().search(Menus.getBufferedReader());
+            else App.getAuthorService().search(args[2]);
             break;
         case "books":
-            if (args.length == 2) BookService.search(Menus.getBufferedReader());
-            else BookService.search(args[2]);
+            if (args.length == 2) App.getBookService().search(Menus.getBufferedReader());
+            else App.getBookService().search(args[2]);
             break;
         case "publishers":
-            if (args.length == 2) PublisherService.search(Menus.getBufferedReader());
-            else PublisherService.search(args[2]);
+            if (args.length == 2) App.getPublisherService().search(Menus.getBufferedReader());
+            else App.getPublisherService().search(args[2]);
             break;
         }
     }
@@ -127,13 +123,13 @@ public class Parser {
         case "author":
             switch (args.length) {
             case 2:
-                AuthorService.update(Menus.getBufferedReader());
+                App.getAuthorService().update(Menus.getBufferedReader());
                 break;
             case 5:
                 int id = Integer.parseInt(args[2]);
                 String firstName = args[3];
                 String lastName = args[4];
-                AuthorService.update(id, firstName, lastName);
+                App.getAuthorService().update(id, firstName, lastName);
                 break;
             default:
                 System.out.println("To update the author, you must provide "+
@@ -146,12 +142,12 @@ public class Parser {
         case "book":
             switch (args.length) {
             case 2:
-                BookService.update(Menus.getBufferedReader());
+                App.getBookService().update(Menus.getBufferedReader());
                 break;
             case 4:
                 int id = Integer.parseInt(args[2]);
                 String name = args[3];
-                BookService.update(id, name);
+                App.getBookService().update(id, name);
                 break;
             default:
                 System.out.println(
@@ -163,7 +159,7 @@ public class Parser {
         case "publisher":
             switch (args.length) {
             case 2:
-                PublisherService.update(Menus.getBufferedReader());
+                App.getPublisherService().update(Menus.getBufferedReader());
                 break;
             case 4:
                 break;

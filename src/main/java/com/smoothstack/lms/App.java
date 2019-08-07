@@ -35,7 +35,9 @@ public class App {
         if (as == null) {
             synchronized(App.class) {
                 if (as == null) {
-                    as = new AuthorService();
+                    as = new AuthorService(
+                        Paths.get("resources","authors.csv").toString(),
+                        Paths.get("resources", "nextId","author.txt").toString());
                 }
             }
         }
@@ -46,7 +48,9 @@ public class App {
         if (bs == null) {
             synchronized (App.class) {
                 if (bs == null) {
-                    bs = new BookService();
+                    bs = new BookService(
+                        Paths.get("resources","books.csv").toString(),
+                        Paths.get("resources","nextId","book.txt").toString());
                 }
             }
         }
@@ -56,7 +60,11 @@ public class App {
     public static PublisherService getPublisherService() {
         if (ps == null) {
             synchronized (App.class) {
-                ps = new PublisherService();
+                if (ps == null) {
+                    ps = new PublisherService(
+                        Paths.get("resources", "publisher.csv").toString(),
+                        Paths.get("resources", "nextId", "publisher.txt").toString());
+                }
             }
         }
         return ps;
