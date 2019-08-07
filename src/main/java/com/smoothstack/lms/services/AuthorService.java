@@ -3,12 +3,25 @@ package com.smoothstack.lms.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import com.smoothstack.lms.dao.AuthorDao;
+import com.smoothstack.lms.dao.Author;
 import com.smoothstack.lms.impl.AuthorImpl;
+import com.smoothstack.lms.repoimpl.AuthorRepositoryImpl;
+import com.smoothstack.lms.repositories.AuthorRepository;
 
 public class AuthorService {
+    private static AuthorRepository _ar;
+    public static AuthorRepository getAR() {
+        if (_ar == null) {
+            synchronized(AuthorService.class) {
+                if (_ar == null) {
+                    _ar = new AuthorRepositoryImpl();
+                }
+            }
+        }
+        return _ar;
+    }
     public static void list() {
-        for (AuthorDao a : AuthorImpl.getAuthors()) {
+        for (Author a : getAR().getAuthors()) {
             System.out.println(a);
         }
     }
@@ -31,10 +44,26 @@ public class AuthorService {
         a.setLastName(lastName);
         a.save();
     }
-    public static void search(BufferedReader r) {}
-    public static void search(String s) {}
+    public static void search(BufferedReader r) {
+        System.out.println("Enter all or part of an author's first or last name");
+        try {
+            String query = r.readLine();
+            search(query);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    public static void search(String s) {
+        AuthorImpl.getAuthors().stream().filter((Author a) -> 
+            (a.getFirstName().toLowerCase()+" "+a.getLastName().toLowerCase())
+            .contains(s.toLowerCase())
+        ).forEach(System.out::println);
+
+    }
     public static void update(BufferedReader r) {}
-    public static void update(int id, String firstName, String lastName) {}
+    public static void update(int id, String firstName, String lastName) {
+        
+    }
     public static void delete(BufferedReader r) {}
     public static void delete(int id) {}
 }

@@ -1,6 +1,6 @@
-package com.smoothstack.lms.entities;
+package com.smoothstack.lms.dataclasses;
 
-public class Publisher {
+public class PublisherData {
     private String name;
     private int foundingYear;
 
@@ -10,7 +10,7 @@ public class Publisher {
     public void setName(String s) {
         name = s;
     }
-    public int getFOundingYear() {
+    public int getFoundingYear() {
         return foundingYear;
     }
     public void setFoundingYear(int y) {

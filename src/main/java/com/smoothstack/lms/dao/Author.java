@@ -1,10 +1,16 @@
 package com.smoothstack.lms.dao;
 
-import com.smoothstack.lms.dao.BookDao;
+import com.smoothstack.lms.dao.Book;
+import com.smoothstack.lms.dataclasses.AuthorData;
+
 import java.util.List;
 
-public interface AuthorDao {
+public interface Author {
     public int getId();
+
+    public AuthorData getData();
+    public void setData(AuthorData ad);
+
     public String getFirstName();
     public void setFirstName(String fName);
     public String getLastName();
@@ -15,5 +21,5 @@ public interface AuthorDao {
     public void save();
     public void delete();
 
-    public List<BookDao> getBooks();
+    public List<Book> getBooks();
 }

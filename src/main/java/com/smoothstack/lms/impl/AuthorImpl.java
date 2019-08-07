@@ -3,85 +3,51 @@ package com.smoothstack.lms.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.smoothstack.lms.dao.AuthorDao;
-import com.smoothstack.lms.dao.BookDao;
-import com.smoothstack.lms.entities.Author;
+import com.smoothstack.lms.dao.Author;
+import com.smoothstack.lms.dao.Book;
+import com.smoothstack.lms.dataclasses.AuthorData;
+import com.smoothstack.lms.repoimpl.AuthorRepositoryImpl;
+import static com.smoothstack.lms.repoimpl.AuthorRepositoryImpl.AUTHOR_CSV_FILE_PATH;
 
-public class AuthorImpl implements AuthorDao {
-    private static final String AUTHOR_CSV_FILE_PATH = "resources/authors.csv";
-    private static final String NEXT_ID_FILE_PATH = "resources/nextId/author.txt";
+public class AuthorImpl implements Author {
 
-    private static ArrayList<AuthorDao> authors;
-    private Author a;
+    private static AuthorRepositoryImpl repo;
+    private AuthorData a;
     private int id;
-    public AuthorImpl() {
-        a = new Author();
-        id = getNewId();
+    public AuthorImpl(int id) {
+        a = new AuthorData();
+        this.id = id;
     }
-    AuthorImpl(String CsvRow) {
+    public AuthorImpl(String CsvRow) {
         String[] data = CsvRow.split(",");
         id = Integer.parseInt(data[0]);
-        a = new Author();
+        a = new AuthorData();
         a.setFirstName(data[1]);
         a.setLastName(data[2]);
     }
-    public static List<AuthorDao> getAuthors() {
-        ArrayList<AuthorDao> authors = new ArrayList<AuthorDao>();
-        try {
-            BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH));
-            String row;
-            while ((row = csvReader.readLine()) != null) {
-                authors.add(new AuthorImpl(row));
-            }
-            csvReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
 
-        return authors;
+    public AuthorData getData() {
+        return a;
     }
-    public static List<AuthorDao> searchByName(String s) {
-        ArrayList<AuthorDao> authors = new ArrayList<AuthorDao>();
-        try {
-            BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH));
-            String row;
-            while ((row = csvReader.readLine()) != null) {
-                AuthorImpl currAuthor = new AuthorImpl(row);
-                if ((currAuthor.getFirstName() + currAuthor.getLastName()).contains(s)) {
-                    authors.add(currAuthor);
-                }
-            }
-            csvReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return authors;
+    public void setData(AuthorData ad) {
+        a = ad;
     }
-
     @Override
-	public List<BookDao> getBooks() {
+	public List<Book> getBooks() {
         // read books
         // for each book record, record it if this is it's author
         return BookImpl.getAll().stream()
-        .filter((BookDao b) -> b.getAuthor().getId()==this.id)
+        .filter((Book b) -> b.getAuthor().getId()==this.id)
         .collect(Collectors.toList());
     }
     @Override
     public String toString() {
         return "Author "+id+": "+a.getFirstName()+" "+a.getLastName();
-    }
-    public static String csvFilePath() {
-        return AUTHOR_CSV_FILE_PATH;
     }
 
     @Override
@@ -113,97 +79,22 @@ public class AuthorImpl implements AuthorDao {
     public void setLastName(String lName) {
         a.setLastName(lName);
     }
-	private static synchronized int getNewId() {
-        int nextId = -1;
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(NEXT_ID_FILE_PATH))) {
-            String data = fileReader.readLine();
-            nextId = Integer.parseInt(data);
-            writeNextId(nextId);
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-            return recoverNextIdFile();
-        } catch (IOException e) {
-            System.out.println(e);
-        } catch (NumberFormatException e) {
-            return recoverNextIdFile();
-        }
-        return nextId;
-    }
-    private static void writeNextId(int nextId) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(NEXT_ID_FILE_PATH))) {
-            writer.write(new Integer(nextId+1).toString());
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-    private static int recoverNextIdFile() {
-        int nextId = 1;
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH))) {
-            String row;
-            while ((row = csvReader.readLine()) != null) {
-                AuthorImpl currAuthor = new AuthorImpl(row);
-                if (currAuthor.id >= nextId) {
-                    nextId = currAuthor.id + 1;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        writeNextId(nextId);
-        return nextId;
-    }
+
 
     @Override
     public void save() {
-        authors = new ArrayList<AuthorDao>();
-        boolean noExceptions = true;
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH))) {
-            String row;
-            boolean found = false;
-            while ((row = csvReader.readLine()) != null) {
-                AuthorImpl currAuthor = new AuthorImpl(row);
-                if (currAuthor.getId() == this.getId()) {
-                    authors.add(this);
-                    found = true;
-                    System.out.println("Overwriting Author record...");
-                } else {
-                    authors.add(currAuthor);
-                }
+        List<Author> authors = repo.getAuthors();
+        for (Author a : authors) {
+            if (a.getId() == this.id) {
+                a.setData(this.a);
             }
-            if (!found) {
-                authors.add(this);
-                System.out.println("Creating new Author...");
-            }
-        } catch (FileNotFoundException e) {
-            noExceptions = false;
-            System.out.println(e);
-        } catch (IOException e) {
-            noExceptions = false;
-            System.out.println(e);
         }
-        try (FileWriter csvWriter = new FileWriter(AUTHOR_CSV_FILE_PATH)) {
-            for (AuthorDao ad : authors) {
-                csvWriter.write(ad.csvRow()+"\n");
-            }
-        } catch (FileNotFoundException e) {
-            noExceptions = false;
-            System.out.println(e);
-        } catch (IOException e) {
-            noExceptions = false;
-            System.out.println(e);
-        }
-        if (noExceptions) {
-            System.out.println("New Author Saved succesfully");
-        } else {
-            System.out.println("Error when saving new author");
-        }
+        repo.writeAuthors(authors);
     }
 
     @Override
     public void delete() {
-        authors = new ArrayList<AuthorDao>();
+        List<Author> authors = new ArrayList<Author>();
         boolean found = false;
         try (BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH))) {
             String row;
@@ -221,7 +112,7 @@ public class AuthorImpl implements AuthorDao {
             System.out.println(e);
         }
         try (FileWriter csvWriter = new FileWriter(AUTHOR_CSV_FILE_PATH)) {
-            for (AuthorDao ad : authors) {
+            for (Author ad : authors) {
                 csvWriter.write(ad.csvRow()+"\n");
             }
         } catch (FileNotFoundException e) {

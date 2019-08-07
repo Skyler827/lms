@@ -6,25 +6,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.smoothstack.lms.dao.BookDao;
-import com.smoothstack.lms.dao.PublisherDao;
-import com.smoothstack.lms.entities.Publisher;
+import com.smoothstack.lms.dao.Book;
+import com.smoothstack.lms.dao.Publisher;
+import com.smoothstack.lms.dataclasses.PublisherData;
 
-public class PublisherImpl implements PublisherDao {
+public class PublisherImpl implements Publisher {
     private static final String PUB_CSV_FILE_PATH = "resources/publishers.csv";
 
-    private Publisher p;
+    private PublisherData p;
     private int id;
 
     public PublisherImpl(String CsvRow) {
         String[] data = CsvRow.split(",");
-        p = new Publisher();
+        p = new PublisherData();
         id = Integer.parseInt(data[0]);
         p.setName(data[1]);
         p.setFoundingYear(Integer.parseInt(data[2]));
     }
-    public static List<PublisherDao> getAll() {
-        ArrayList<PublisherDao> publishers =  new ArrayList<PublisherDao>();
+    public PublisherData getData() {
+        return p;
+    }
+    public void setData(PublisherData pd) {
+        p = pd;
+    }
+    public static List<Publisher> getAll() {
+        ArrayList<Publisher> publishers =  new ArrayList<Publisher>();
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(PUB_CSV_FILE_PATH));
             String row;
@@ -39,11 +45,11 @@ public class PublisherImpl implements PublisherDao {
         }
         return publishers;
     }
-    public static PublisherDao getById(String s) {
+    public static Publisher getById(String s) {
         return null;
     };
-    public static void putPublisher(PublisherDao p) {};
-    public static void deletePublisher(PublisherDao p) {};
+    public static void putPublisher(Publisher p) {};
+    public static void deletePublisher(Publisher p) {};
 
     @Override
     public String getName() {
@@ -56,17 +62,17 @@ public class PublisherImpl implements PublisherDao {
     }
 
     @Override
-    public List<BookDao> getBooks() {
+    public List<Book> getBooks() {
         return null;
     }
 
     @Override
-    public void addBook(BookDao b) {
+    public void addBook(Book b) {
 
     }
 
     @Override
-	public void removeBook(BookDao b) {
+	public void removeBook(Book b) {
 		
 	}
 

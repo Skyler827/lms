@@ -1,6 +1,6 @@
-package com.smoothstack.lms.entities;
+package com.smoothstack.lms.dataclasses;
 
-public class Author {
+public class AuthorData {
     private String firstName;
     private String lastName;
 

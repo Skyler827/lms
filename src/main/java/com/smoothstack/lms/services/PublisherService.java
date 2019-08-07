@@ -2,12 +2,12 @@ package com.smoothstack.lms.services;
 
 import java.io.BufferedReader;
 
-import com.smoothstack.lms.dao.PublisherDao;
+import com.smoothstack.lms.dao.Publisher;
 import com.smoothstack.lms.impl.PublisherImpl;
 
 public class PublisherService {
     public static void list() {
-        for (PublisherDao p : PublisherImpl.getAll()) {
+        for (Publisher p : PublisherImpl.getAll()) {
             System.out.println(p);
         }
     }

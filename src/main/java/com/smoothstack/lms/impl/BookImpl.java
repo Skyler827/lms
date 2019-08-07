@@ -6,24 +6,32 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.smoothstack.lms.dao.AuthorDao;
-import com.smoothstack.lms.dao.BookDao;
-import com.smoothstack.lms.dao.PublisherDao;
-import com.smoothstack.lms.entities.Book;
+import com.smoothstack.lms.dao.Author;
+import com.smoothstack.lms.dao.Book;
+import com.smoothstack.lms.dao.Publisher;
+import com.smoothstack.lms.dataclasses.BookData;
 
-public class BookImpl implements BookDao {
+public class BookImpl implements Book {
     public static final String BOOK_CSV_FILE_PATH = "resources/books.csv";
-    Book b;
+    BookData b;
 
     public BookImpl(String csvRow) {
-        b = new Book();
+        b = new BookData();
         String[] data = csvRow.split(",");
         b.setIsbn(Integer.parseInt(data[0]));
         b.setTitle(data[1]);
         b.setPublicationYear(Integer.parseInt(data[4]));
     }
-    public static List<BookDao> getAll() {
-        List<BookDao> books = new ArrayList<BookDao>();
+
+    public BookData getData() {
+        return b;
+    }
+    public void setData(BookData bd) {
+        b = bd;
+    }
+
+    public static List<Book> getAll() {
+        List<Book> books = new ArrayList<Book>();
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(BOOK_CSV_FILE_PATH));
             String row;
@@ -38,11 +46,11 @@ public class BookImpl implements BookDao {
         }
         return books;
     }
-    public static List<BookDao> searchByName(String s) {
-        return new ArrayList<BookDao>();
+    public static List<Book> searchByName(String s) {
+        return new ArrayList<Book>();
     }
-    public static void putBook(BookDao b) {};
-    public static void deleteBook(BookDao b) {};
+    public static void putBook(Book b) {};
+    public static void deleteBook(Book b) {};
 
     @Override
     public String getTitle() {
@@ -55,22 +63,22 @@ public class BookImpl implements BookDao {
     }
 
     @Override
-    public AuthorDao getAuthor() {
+    public Author getAuthor() {
         return null;
     }
 
     @Override
-    public void setAuthor(AuthorDao a) {
+    public void setAuthor(Author a) {
 
     }
 
     @Override
-    public PublisherDao getPublisher() {
+    public Publisher getPublisher() {
         return null;
     }
 
     @Override
-    public void setPublisher(PublisherDao p) {
+    public void setPublisher(Publisher p) {
 		
 	}
 

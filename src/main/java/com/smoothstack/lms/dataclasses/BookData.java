@@ -1,6 +1,6 @@
-package com.smoothstack.lms.entities;
+package com.smoothstack.lms.dataclasses;
 
-public class Book {
+public class BookData {
     private String title;
     private int authorId;
     private int publisherId;

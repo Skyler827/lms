@@ -2,12 +2,12 @@ package com.smoothstack.lms.services;
 
 import java.io.BufferedReader;
 
-import com.smoothstack.lms.dao.BookDao;
+import com.smoothstack.lms.dao.Book;
 import com.smoothstack.lms.impl.BookImpl;
 
 public class BookService {
     public static void list() {
-        for (BookDao b : BookImpl.getAll()) {
+        for (Book b : BookImpl.getAll()) {
             System.out.println(b);
         }
     }
