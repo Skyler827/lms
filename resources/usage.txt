@@ -1,52 +1,130 @@
 Welcome to Skyler's Library Management System!
 
 Usage:
-    lms list books
-        Dump list of all books
+    lms
+        Starts an interactive session, which prompts the user what they want
+        to do
 
-    lms search books $SEARCH_TERM
-        search books by title, author, or publisher name, and shows relevant
-        results
-
-    lms add book
-        starts an interactive session where LMS asks the user for a book name,
-        author, publisher, and other details
-
-    lms update book $ISBN
-        starts an interactive session where LMS asks the user what detail to
-        update, what the new information is, and writes the updated information
-        on the given book to the file
-
-    lms delete book $ISBN
-        after confirming with the user, deletes a book with the given ID and
-        updates the file
+    lms list
+        Starts an interactive session, prompting the user what kind of record
+        they wish to list
 
     lms list authors
-        Dump list of all authors
+        Dumps a list of all authors
 
-    lms search authors $SEARCH_TERM
-        search authors by name and shows a list of relevant results
+    lms list books
+        Dumps a list of all books
+
+    lms list publishers
+        Dumps a list of all publishers
+
+    lms search
+        Starts an interactive session, asking the user what kind of record
+        they want to search for
+
+    lms search author
+        Starts an interactive session, allowing the user to enter a search term
+        to find authors by first or last name
+
+    lms search author $SEARCH_TERM
+        Searches authors by name, and shows the relevant results
+
+    lms search books
+        Starts an interactive session, allowing the user to enter a search term
+        to find books by title or author
+
+    lms search books $SEARCH_TERM
+        Searches books by title, author, or publisher name, and shows relevant
+        results
+
+    lms search publisher
+        Starts an interactive session, allowing the user to enter a search term
+        to find publishers by name
+
+    lms search publisher $SEARCH_TERM
+        Searches publishers by name, and shows relevant results
+
+    lms add
+        Starts an interactive session where LMS asks the user what record they
+        would like to add to
 
     lms add author
         starts an interactive session where LMS asks the user for an author
         name, and other details
 
-    lms update author $AUTHOR_ID
-        starts an interactive session where LMS asks the user what detail to
-        update, what to change it to, and writes it to the file
+    lms add author $FIST_NAME $LAST_NAME
+        Creates a new author with the given first name and last name and saves
+        it (NOTE: if there are more than 2 space delimited words, then the last
+        space delimited word in the command will be the last name; other space
+        delimited words will all be combined to be the first name)
 
-    lms delete author $AUTHOR_ID
-        after confirming with the user, deletes an author with a given ID and
+    lms add book
+        Starts an interactive session where LMS asks the user for a book name,
+        author, publisher, and other details.  If the author or publisher are
+        not saved yet, the user will be allowed to specify and save them also
+
+    lms add book $TITLE $AUTHOR_ID $PUBLISHER_ID $PUBLICATION_YEAR
+        Creates a book with the given title, author ID, publisher id,
+        publication year, and saves it
+
+    lms add publisher
+        Starts an interactive session where LMS asks the user for a publisher
+        name, and saves it
+
+    lms add publisher $PUBLISHER_NAME
+        Creates a publisher with a given name and saves it
+
+    lms update
+        Starts an interactive session where LMS asks the user what detail to
+        update, what the new information is, and writes the updated information
+        on the given book to the file
+
+    lms update book
+        Starts an interactive session where LMS asks for a book ID, then book
+        information to update a given record with
+
+    lms update book $ISBN $NAME
+        Updates a book record to have a given name, author, publisher, and year
+
+    lms update author
+        Starts an interactive session where LMS asks for an author ID, then
+        author first name and last name, to update and save an existing author
+        record
+
+    lms update author $AUTHOR_ID $FIRST_NAME $LAST_NAME
+        Updates the author, given by ID, to have the given first name and last
+        name
+
+    lms update publisher
+        Starts an interactive session where LMS asks the user for a publisher
+        ID to update its name
+
+    lms update publisher $PUBLISHER_ID $PUBLISHER_NAME
+        Updates the publisher to have the given name
+
+    lms delete
+        Starts an interactive session wher LMS asks the user what kind of
+        record to delete
+
+    lms delete book
+        Starts an interactive session where LMS asks the user for the ISBN of a
+        book to delete
+
+    lms delete book $ISBN
+        After confirming with the user, deletes a book with the given ID and
         updates the file
 
-    lms list publishers
-        Dump list of all publishers
+    lms delete author
+        Starts an interactive session where LMS asks the user for the ID of an
+        author to delete
 
-    lms search publishers $SEARCH_TERM
-        search publishers by name
+    lms delete author $AUTHOR_ID
+        After confirming with the user, deletes an author with a given ID and
+        updates the file
 
-    lms update publisher $PUBLISHER_ID
-        starts an interactive session
+    lms delete publisher
+        Starts an interactive session where LMS asks the user for the ID of a
+        publisher to delete
 
     lms delete publisher $PUBLISHER_ID
         after confirming with the user, deletes a publisher with a given ID and
