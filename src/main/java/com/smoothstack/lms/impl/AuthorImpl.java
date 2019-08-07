@@ -2,6 +2,7 @@ package com.smoothstack.lms.impl;
 
 import java.util.List;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,12 +14,14 @@ import com.smoothstack.lms.entities.Author;
 
 public class AuthorImpl implements AuthorDao {
     private static final String AUTHOR_CSV_FILE_PATH = "resources/authors.csv";
+    private static final String NEXT_ID_FILE_PATH = "resources/nextId/author.txt";
 
     private static ArrayList<AuthorDao> authors;
     private Author a;
     private int id;
     public AuthorImpl() {
         a = new Author();
+        id = getNewId();
     }
     AuthorImpl(String CsvRow) {
         String[] data = CsvRow.split(",");
@@ -45,41 +48,24 @@ public class AuthorImpl implements AuthorDao {
         return authors;
     }
     public static List<AuthorDao> searchByName(String s) {
-        return new ArrayList<AuthorDao>();
-    }
-    public static void putAuthor(AuthorDao a) {
-        authors = new ArrayList<AuthorDao>();
+        ArrayList<AuthorDao> authors = new ArrayList<AuthorDao>();
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH));
             String row;
-            boolean found = false;
             while ((row = csvReader.readLine()) != null) {
                 AuthorImpl currAuthor = new AuthorImpl(row);
-                if (currAuthor.getId() == a.getId()) {
-                    authors.add(a);
-                    found = true;
-                } else {
+                if ((currAuthor.getFirstName() + currAuthor.getLastName()).contains(s)) {
                     authors.add(currAuthor);
                 }
             }
-            if (!found) {
-                authors.add(a);
-            }
             csvReader.close();
         } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {}
-        try {
-            FileWriter csvWriter = new FileWriter(AUTHOR_CSV_FILE_PATH);
-            for (AuthorDao ad : authors) {
-                csvWriter.write(ad.csv()+"\n");
-            }
-            csvWriter.close();
-        } catch (FileNotFoundException e) {
-
-        } catch (IOException e) {}
-    };
-    public static void deleteAuthor(AuthorDao a) {};
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return authors;
+    }
 
     @Override
     public void putBook(BookDao b) {
@@ -98,7 +84,7 @@ public class AuthorImpl implements AuthorDao {
     public String toString() {
         return "Author "+id+": "+a.getFirstName()+" "+a.getLastName();
     }
-    public String csvFilePath() {
+    public static String csvFilePath() {
         return AUTHOR_CSV_FILE_PATH;
     }
 
@@ -108,7 +94,7 @@ public class AuthorImpl implements AuthorDao {
     }
 
     @Override
-    public String csv() {
+    public String csvRow() {
         return id+","+a.getFirstName()+","+a.getLastName();
     }
 
@@ -131,7 +117,127 @@ public class AuthorImpl implements AuthorDao {
     public void setLastName(String lName) {
         a.setLastName(lName);
     }
-	public static int getNewId() {
-		return 0;
-	}
+	private static synchronized int getNewId() {
+        int nextId = -1;
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(NEXT_ID_FILE_PATH))) {
+            String data = fileReader.readLine();
+            nextId = Integer.parseInt(data);
+            writeNextId(nextId);
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+            return recoverNextIdFile();
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (NumberFormatException e) {
+            return recoverNextIdFile();
+        }
+        return nextId;
+    }
+    private static void writeNextId(int nextId) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(NEXT_ID_FILE_PATH))) {
+            writer.write(new Integer(nextId+1).toString());
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    private static int recoverNextIdFile() {
+        int nextId = 1;
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH))) {
+            String row;
+            while ((row = csvReader.readLine()) != null) {
+                AuthorImpl currAuthor = new AuthorImpl(row);
+                if (currAuthor.id >= nextId) {
+                    nextId = currAuthor.id + 1;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        writeNextId(nextId);
+        return nextId;
+    }
+
+    @Override
+    public void save() {
+        authors = new ArrayList<AuthorDao>();
+        boolean noExceptions = true;
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH))) {
+            String row;
+            boolean found = false;
+            while ((row = csvReader.readLine()) != null) {
+                AuthorImpl currAuthor = new AuthorImpl(row);
+                if (currAuthor.getId() == this.getId()) {
+                    authors.add(this);
+                    found = true;
+                    System.out.println("Overwriting Author record...");
+                } else {
+                    authors.add(currAuthor);
+                }
+            }
+            if (!found) {
+                authors.add(this);
+                System.out.println("Creating new Author...");
+            }
+        } catch (FileNotFoundException e) {
+            noExceptions = false;
+            System.out.println(e);
+        } catch (IOException e) {
+            noExceptions = false;
+            System.out.println(e);
+        }
+        try (FileWriter csvWriter = new FileWriter(AUTHOR_CSV_FILE_PATH)) {
+            for (AuthorDao ad : authors) {
+                csvWriter.write(ad.csvRow()+"\n");
+            }
+        } catch (FileNotFoundException e) {
+            noExceptions = false;
+            System.out.println(e);
+        } catch (IOException e) {
+            noExceptions = false;
+            System.out.println(e);
+        }
+        if (noExceptions) {
+            System.out.println("New Author Saved succesfully");
+        } else {
+            System.out.println("Error when saving new author");
+        }
+    }
+
+    @Override
+    public void delete() {
+        authors = new ArrayList<AuthorDao>();
+        boolean found = false;
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(AUTHOR_CSV_FILE_PATH))) {
+            String row;
+            while ((row = csvReader.readLine()) != null) {
+                AuthorImpl currAuthor = new AuthorImpl(row);
+                if (currAuthor.getId() != this.getId()) {
+                    authors.add(currAuthor);
+                } else {
+                    found = true;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        try (FileWriter csvWriter = new FileWriter(AUTHOR_CSV_FILE_PATH)) {
+            for (AuthorDao ad : authors) {
+                csvWriter.write(ad.csvRow()+"\n");
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        if (!found) {
+            System.out.println("Author was found and removed");
+        } else {
+            System.out.println("Author was not present, nothing was removed");
+        }
+
+    }
 }

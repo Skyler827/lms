@@ -87,12 +87,17 @@ public class BookImpl implements BookDao {
     public String toString() {
         return "Book "+b.getIsbn()+": "+b.getTitle();
     }
-    public String csvFilePath() {
+    public static String csvFilePath() {
         return BOOK_CSV_FILE_PATH;
     }
 
     @Override
     public int getId() {
         return b.getIsbn();
+    }
+
+    @Override
+    public String csvRow() {
+        return null;
     }
 }

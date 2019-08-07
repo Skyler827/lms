@@ -38,22 +38,39 @@ public class App
             }
             break;
         case "search":
-            System.out.println("not implemented yet");
+            if (args.length == 1) {
+                usage();
+            }
+            switch (args[1]) {
+            case "authors":
+                if (args.length == 2) searchAuthor();
+                else searchAuthor(args[2]);
+                break;
+            case "books":
+                if (args.length == 2) searchBook();
+                else searchBook(args[2]);
+                break;
+            case "publishers":
+                if (args.length == 2) searchPublisher();
+                else searchPublisher(args[2]);
+                break;
+            }
             break;
         case "add":
-            System.out.println("not implemented yet");
             if (args.length == 1) {usage(); return;}
             switch (args[1]) {
                 case "author": addAuthor(); break;
                 case "book": addBook(); break;
                 case "publisher": addPublisher(); break;
+                default:
+                    System.out.println("must be one of either \"author\", "+
+                    "\"book\", or \"publisher\".");
+
             }
             break;
         case "update":
-            System.out.println("not implemented yet");
             break;
         case "delete":
-            System.out.println("not implemented yet");
             break;
         default:
             usage();
@@ -87,21 +104,48 @@ public class App
         }
     }
     private static void addAuthor() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
-        try {
+        String fName;
+        String lName;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Enter Author first name:");
-            String fName = reader.readLine();
+            fName = reader.readLine();
             System.out.println("Enter Author Last name:");
-            String lName = reader.readLine();
-            int id = AuthorImpl.getNewId();
-            AuthorImpl a = new AuthorImpl();
-            a.setFirstName(fName);
-            a.setLastName(lName);
-            a.setId
+            lName = reader.readLine();
+            addAuthor(fName, lName);
         } catch (IOException e) {
             System.out.println(e);
         }
     }
+    private static void addAuthor(String firstName, String lastName) {
+        AuthorImpl a = new AuthorImpl();
+        a.setFirstName(firstName);
+        a.setLastName(lastName);
+        a.save();
+    }
     private static void addBook() {}
     private static void addPublisher() {}
+
+    private static void searchBook() {}
+    private static void searchAuthor() {}
+    private static void searchPublisher() {}
+
+    private static void searchBook(String s) {}
+    private static void searchAuthor(String s) {}
+    private static void searchPublisher(String s) {}
+
+    private static void updateBook() {}
+    private static void updateAuthor() {}
+    private static void updatePublisher() {}
+
+    private static void updateBook(BookDao b) {}
+    private static void updateAuthor(AuthorDao a) {}
+    private static void updatePublisher(PublisherDao p) {}
+
+    private static void deleteBook() {}
+    private static void deleteAuthor() {}
+    private static void deletePublisher() {}
+
+    private static void deleteBook(int isbn) {}
+    private static void deleteAuthor(int id) {}
+    private static void deletePublisher(int id) {}
 }

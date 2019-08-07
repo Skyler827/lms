@@ -13,4 +13,6 @@ public interface PublisherDao {
     public List<BookDao> getBooks();
     public void addBook(BookDao b);
     public void removeBook(BookDao b);
+
+    public String csvRow();
 }

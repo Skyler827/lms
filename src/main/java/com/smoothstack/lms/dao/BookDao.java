@@ -15,4 +15,6 @@ public interface BookDao {
 
     public int getPublicationYear();
     public void setPublicationYear(int y);
+
+    public String csvRow();
 }
