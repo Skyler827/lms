@@ -79,13 +79,6 @@ Usage:
         update, what the new information is, and writes the updated information
         on the given book to the file
 
-    lms update book
-        Starts an interactive session where LMS asks for a book ID, then book
-        information to update a given record with
-
-    lms update book $ISBN $NAME
-        Updates a book record to have a given name, author, publisher, and year
-
     lms update author
         Starts an interactive session where LMS asks for an author ID, then
         author first name and last name, to update and save an existing author
@@ -94,6 +87,13 @@ Usage:
     lms update author $AUTHOR_ID $FIRST_NAME $LAST_NAME
         Updates the author, given by ID, to have the given first name and last
         name
+
+    lms update book
+        Starts an interactive session where LMS asks for a book ID, then book
+        information to update a given record with
+
+    lms update book $ISBN $NAME
+        Updates a book record to have a given name, author, publisher, and year
 
     lms update publisher
         Starts an interactive session where LMS asks the user for a publisher
@@ -106,20 +106,20 @@ Usage:
         Starts an interactive session wher LMS asks the user what kind of
         record to delete
 
-    lms delete book
-        Starts an interactive session where LMS asks the user for the ISBN of a
-        book to delete
-
-    lms delete book $ISBN
-        After confirming with the user, deletes a book with the given ID and
-        updates the file
-
     lms delete author
         Starts an interactive session where LMS asks the user for the ID of an
         author to delete
 
     lms delete author $AUTHOR_ID
         After confirming with the user, deletes an author with a given ID and
+        updates the file
+
+    lms delete book
+        Starts an interactive session where LMS asks the user for the ISBN of a
+        book to delete
+
+    lms delete book $ISBN
+        After confirming with the user, deletes a book with the given ID and
         updates the file
 
     lms delete publisher
