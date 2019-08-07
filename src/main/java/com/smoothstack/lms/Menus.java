@@ -1,13 +1,25 @@
 package com.smoothstack.lms;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import com.smoothstack.lms.services.AuthorService;
 import com.smoothstack.lms.services.BookService;
 import com.smoothstack.lms.services.PublisherService;
 
 public class Menus {
+    private static BufferedReader _reader;
+    public static BufferedReader getBufferedReader() {
+        if (_reader == null) {
+            synchronized(Menus.class) {
+                if (_reader == null) {
+                    _reader =  new BufferedReader(new InputStreamReader(System.in));
+                }
+            }
+        }
+        return _reader;
+    }
     static void mainMenu() {
         mainMenu(-1);
     }
@@ -36,11 +48,14 @@ public class Menus {
         do {
             if (choice < 0) {
                 for (String s : menu) {System.out.println(s);}
-                try (Scanner in = new Scanner(System.in)) {
-                    choice = in.nextInt();
-                } catch (InputMismatchException e) {
+                try {
+                    String s = getBufferedReader().readLine();
+                    choice = Integer.parseInt(s);
+                } catch (NumberFormatException e) {
                     System.out.println("Please enter an integer from 0 to 5");
                     continue;
+                } catch (IOException e) {
+                    System.out.println(e);
                 }
             }
             switch (choice) {
@@ -70,11 +85,14 @@ public class Menus {
         };
         do {
             for (String s : menu) {System.out.println(s);}
-            try (Scanner in = new Scanner(System.in)) {
-                choice = in.nextInt();
-            } catch (InputMismatchException e) {
+            try {
+                String s = getBufferedReader().readLine();
+                choice = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
                 System.out.println("Please enter an integer from 0 to 3");
                 continue;
+            } catch (IOException e) {
+                System.out.println(e);
             }
             switch (choice) {
             case 0: break;
@@ -98,11 +116,14 @@ public class Menus {
         };
         do {
             for (String s : menu) {System.out.println(s);}
-            try (Scanner in = new Scanner(System.in)) {
-                choice = in.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter an integer from 0 to 5");
+            try {
+                String s = getBufferedReader().readLine();
+                choice = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter an integer from 0 to 3");
                 continue;
+            } catch (IOException e) {
+                System.out.println(e);
             }
             switch (choice) {
             case 0: break;
@@ -126,17 +147,20 @@ public class Menus {
         };
         do {
             for (String s : menu) {System.out.println(s);}
-            try (Scanner in = new Scanner(System.in)) {
-                choice = in.nextInt();
-            } catch (InputMismatchException e) {
+            try {
+                String s = getBufferedReader().readLine();
+                choice = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
                 System.out.println("Please enter an integer from 0 to 3");
                 continue;
+            } catch (IOException e) {
+                System.out.println(e);
             }
             switch (choice) {
             case 0: break;
-            case 1: AuthorService.add(); break;
-            case 2: BookService.add(); break;
-            case 3: PublisherService.add(); break;
+            case 1: AuthorService.add(getBufferedReader()); break;
+            case 2: BookService.add(getBufferedReader()); break;
+            case 3: PublisherService.add(getBufferedReader()); break;
             default: System.out.println("Selection out of range.");
             }
         } while (choice != 0);
@@ -154,11 +178,14 @@ public class Menus {
         };
         do {
             for (String s : menu) {System.out.println(s);}
-            try (Scanner in = new Scanner(System.in)) {
-                choice = in.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter an integer from 0 to 5");
+            try {
+                String s = getBufferedReader().readLine();
+                choice = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter an integer from 0 to 3");
                 continue;
+            } catch (IOException e) {
+                System.out.println(e);
             }
             switch (choice) {
                 case 0: break;
@@ -181,11 +208,14 @@ public class Menus {
         };
         do {
             for (String s : menu) {System.out.println(s);}
-            try (Scanner in = new Scanner(System.in)) {
-                choice = in.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter an integer from 0 to 5");
+            try {
+                String s = getBufferedReader().readLine();
+                choice = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter an integer from 0 to 3");
                 continue;
+            } catch (IOException e) {
+                System.out.println(e);
             }
             switch (choice) {
             case 0: break;

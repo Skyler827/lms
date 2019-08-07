@@ -1,5 +1,7 @@
 package com.smoothstack.lms.services;
 
+import java.io.BufferedReader;
+
 import com.smoothstack.lms.dao.PublisherDao;
 import com.smoothstack.lms.impl.PublisherImpl;
 
@@ -9,7 +11,7 @@ public class PublisherService {
             System.out.println(p);
         }
     }
-    public static void add() {}
+    public static void add(BufferedReader bufferedReader) {}
     public static void add(String publisherName) {}
     public static void search() {}
     public static void search(String s) {}

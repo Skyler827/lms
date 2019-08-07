@@ -2,7 +2,6 @@ package com.smoothstack.lms.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import com.smoothstack.lms.dao.AuthorDao;
 import com.smoothstack.lms.impl.AuthorImpl;
@@ -13,14 +12,14 @@ public class AuthorService {
             System.out.println(a);
         }
     }
-    public static void add() {
+    public static void add(BufferedReader r) {
         String fName;
         String lName;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        try {
             System.out.println("Enter Author first name:");
-            fName = reader.readLine();
+            fName = r.readLine();
             System.out.println("Enter Author Last name:");
-            lName = reader.readLine();
+            lName = r.readLine();
             add(fName, lName);
         } catch (IOException e) {
             System.out.println(e);

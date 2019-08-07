@@ -1,5 +1,7 @@
 package com.smoothstack.lms.services;
 
+import java.io.BufferedReader;
+
 import com.smoothstack.lms.dao.BookDao;
 import com.smoothstack.lms.impl.BookImpl;
 
@@ -11,7 +13,7 @@ public class BookService {
     }
     public static void search() {}
     public static void search(String s) {}
-    public static void add() {}
+    public static void add(BufferedReader bufferedReader) {}
     public static void add(String title, int authorId, int publisherId, int publicationYear) {}
     public static void update() {}
     public static void update(int isbn, String name) {}

@@ -38,7 +38,7 @@ public class Parser {
         case "author":
             List<String> nameArr;
             switch (args.length) {
-            case 2: AuthorService.add(); break;
+            case 2: AuthorService.add(Menus.getBufferedReader()); break;
             case 3:
                 String fullName = args[2];
                 nameArr = Arrays.asList(args[2].split(" "));
@@ -68,7 +68,7 @@ public class Parser {
         case "book":
             switch (args.length) {
             case 2:
-                BookService.add();
+                BookService.add(Menus.getBufferedReader());
                 break;
             case 6:
                 String title = args[2];
@@ -86,7 +86,7 @@ public class Parser {
         case "publisher":
             switch (args.length) {
             case 2:
-                PublisherService.add();
+                PublisherService.add(Menus.getBufferedReader());
                 break;
             case 3:
                 PublisherService.add(args[2]);
