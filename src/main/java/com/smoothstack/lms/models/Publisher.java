@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.smoothstack.lms.dao.CsvSerializable;
+import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.repositories.DaoRepository;
 
-public class Publisher implements CsvSerializable {
+public class Publisher extends BaseModel {
     private String name;
     private int foundingYear;
 
@@ -25,17 +25,6 @@ public class Publisher implements CsvSerializable {
         foundingYear = y;
     }
 
-    @Override
-    public String toCsvRow() {
-        return name+","+String.valueOf(foundingYear);
-    }
-
-    @Override
-    public void populate(String csvRow) {
-        List<String> data = Arrays.asList(csvRow.split(","));
-        name = data.get(0);
-        foundingYear = Integer.parseInt(data.get(1));
-    }
     public List<Dao<Book>> getBooks(DaoRepository<Book> repo, int pubisherId) {
         return repo.getAll().stream()
         .filter(b -> b.getData().getPublisherId() == pubisherId)

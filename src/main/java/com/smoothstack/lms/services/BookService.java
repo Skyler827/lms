@@ -2,13 +2,13 @@ package com.smoothstack.lms.services;
 
 import java.io.BufferedReader;
 import com.smoothstack.lms.models.Book;
-import com.smoothstack.lms.repoimpl.DaoRepositoryImpl;
+import com.smoothstack.lms.repoimpl.CsvDaoRepository;
 import com.smoothstack.lms.repositories.DaoRepository;
 
 public class BookService {
     private static DaoRepository<Book> dr;
     public BookService(String csvFilePath, String nextIdFilePath) {
-        dr = new DaoRepositoryImpl<Book>(csvFilePath, nextIdFilePath);
+        dr = new CsvDaoRepository<Book>(csvFilePath, nextIdFilePath);
     }
 
 	public void list() {

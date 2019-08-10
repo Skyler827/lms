@@ -2,40 +2,44 @@ package com.smoothstack.lms.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
+import java.util.NoSuchElementException;
 
+import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.models.Author;
-import com.smoothstack.lms.repoimpl.DaoRepositoryImpl;
-import com.smoothstack.lms.repositories.DaoRepository;
 
-public class AuthorService {
-    private static DaoRepository<Author> dr;
-    public AuthorService(String csvFilePath, String nextIdFilePath) {
-        dr = new DaoRepositoryImpl<Author>(csvFilePath, nextIdFilePath);
-    }
-	public void list() {
-        dr.getAll();
-    }
+public class AuthorService extends DaoServiceImpl<Author> {
 
-	public void add(BufferedReader bufferedReader) {
-		System.out.println("Enter an author first name");
-		String firstName;
-		String lastName;
-		try {
-			firstName = bufferedReader.readLine();
-			lastName = bufferedReader.readLine();
-			add(firstName, lastName);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
+	public AuthorService(String csvFilePath, String nextIdFilePath) {
+		super(csvFilePath, nextIdFilePath);
 	}
 
-	public void update(BufferedReader bufferedReader) {
-		System.out.println("Enter the ID of the Author you wish to update");
-		try {
-			bufferedReader.readLine();
-		} catch (IOException e) {
-			System.out.println();
-		}
+	@Override
+    public void add(BufferedReader br) {
+	}
+
+	public void update(BufferedReader br) {
+		String firstName = null;
+		String lastName = null;
+		do {
+			try {
+				// look up author id
+				System.out.println("Enter the ID of the Author you wish to update");
+				String line = br.readLine();
+				int authorId = Integer.parseInt(line);
+				try {
+					Dao<Author> a = dr.getById(authorId);
+					// if exists, print info and prompt for updated info
+					System.out.println("Found author with id "+authorId);
+					// then rewrite file
+				} catch (NoSuchElementException e) {
+					// else, notify user of invalid id and re-prompt
+
+				}
+			} catch (IOException e) {
+				System.out.println();
+			}
+		} while (firstName != null && lastName != null);
 	}
 
 	public void delete(BufferedReader bufferedReader) {
@@ -47,9 +51,38 @@ public class AuthorService {
 	public void add(String string, String fullName) {
 	}
 
-	public void search(String string) {
-	}
-
 	public void update(int id, String firstName, String lastName) {
 	}
+
+	@Override
+	public void add(Author data) {
+
+	}
+
+	@Override
+	public void findById(BufferedReader br) {
+
+	}
+
+	@Override
+	public Dao<Author> findById(int id) {
+		return null;
+	}
+
+	@Override
+	public List<Dao<Author>> search(String s) {
+		return null;
+	}
+
+	@Override
+	public void update(int id, Author data) {
+
+	}
+
+	@Override
+	public void delete(int id) {
+
+	}
+	
+
 }

@@ -1,17 +1,27 @@
 package com.smoothstack.lms.repositories;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import com.smoothstack.lms.dao.CsvSerializable;
+import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
 
-public interface DaoRepository<T extends CsvSerializable> {
+public interface DaoRepository<T extends BaseModel> {
     public List<Dao<T>> getAll();
-    public void writeAll(List<Dao<T>> data);
-    public Dao<T> searchById(int id);
+    public Dao<T> getById(int id) throws NoSuchElementException;
+    public List<Dao<T>> getManyById(List<Integer> l, boolean continueOnInvalidId)
+        throws NoSuchElementException;
     public List<Dao<T>> searchByName(String s);
-    public void create(T data);
-    public void update(int id, T data);
-    public void delete(int id);
 
+    public void create(T data);
+    public void createMany(List<T> data);
+
+    public void update(Dao<T> data);
+    public void updateMany(List<Dao<T>> data);
+    public void overwriteAll(List<Dao<T>> data);
+
+    public void delete(int id) throws NoSuchElementException;
+    public void deleteMany(List<Integer> ids, boolean continueOnInvalidId) 
+        throws NoSuchElementException;
+    public void deleteAll();
 }
