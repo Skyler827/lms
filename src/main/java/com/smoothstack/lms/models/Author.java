@@ -25,6 +25,10 @@ public class Author extends BaseModel{
     }
 
     public Author() {}
+    public Author(String firstName_, String lastName_) {
+        firstName = firstName_;
+        lastName = lastName_;
+    }
 
     public List<Dao<Book>> getBooks(DaoRepository<Book> repo, int id) {
         return repo.getAll().stream()

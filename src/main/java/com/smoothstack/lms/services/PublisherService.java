@@ -1,15 +1,25 @@
 package com.smoothstack.lms.services;
 
-import java.io.BufferedReader;
-
-import com.smoothstack.lms.impl.csv.CsvRepository;
+import com.smoothstack.lms.models.Book;
 import com.smoothstack.lms.models.Publisher;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.dao.DaoRepository;
 import com.smoothstack.lms.dao.DaoServiceImpl;
 
 public class PublisherService extends DaoServiceImpl<Publisher>{
-    public PublisherService(DaoRepository<Publisher> repo) {
-        super(repo);
-	}
+    private DaoRepository<Book> _bookRepo;
 
+    public PublisherService(DaoRepository<Publisher> repo, DaoRepository<Book> bookRepo) {
+        super(repo);
+        _bookRepo = bookRepo;
+    }
+    public List<Dao<Book>> getBooks(Dao<Publisher> p) {
+        return _bookRepo.getAll().stream()
+        .filter(b -> b.getData().getPublisherId() == p.getId())
+        .collect(Collectors.toList());
+    }
 }

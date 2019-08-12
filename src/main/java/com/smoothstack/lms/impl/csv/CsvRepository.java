@@ -37,6 +37,10 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
         _idCounterFilePath = nextIdFilePath;
     }
     @Override
+    public Class<T> getType() {
+        return type;
+    }
+    @Override
     public List<Dao<T>> getAll() {
         List<Dao<T>> records = new ArrayList<Dao<T>>();
         List<String> invalidRows = new ArrayList<String>();

@@ -11,6 +11,11 @@ public class Publisher extends BaseModel {
     private String name;
     private int foundingYear;
 
+    public Publisher() {}
+    public Publisher(String name_, int foundingYear_) {
+        name = name_;
+        foundingYear = foundingYear_;
+    }
     public String getName() {
         return name;
     }

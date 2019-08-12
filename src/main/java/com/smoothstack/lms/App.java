@@ -2,13 +2,14 @@ package com.smoothstack.lms;
 
 import java.util.List;
 
+import com.smoothstack.lms.services.AuthorService;
+import com.smoothstack.lms.services.BookService;
+import com.smoothstack.lms.services.PublisherService;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.smoothstack.lms.services.AuthorService;
-import com.smoothstack.lms.services.BookService;
-import com.smoothstack.lms.services.PublisherService;
 /**
  * Hello world!
  * 
@@ -30,43 +31,16 @@ public class App {
             System.out.println(e);
         }
     }
-    private static AuthorService as;
-    public static AuthorService getAuthorService() {
-        if (as == null) {
-            synchronized(App.class) {
-                if (as == null) {
-                    as = new AuthorService(
-                        Paths.get("resources","authors.csv").toString(),
-                        Paths.get("resources", "nextId","author.txt").toString());
-                }
-            }
-        }
-        return as;
-    }
-    private static BookService bs;
-    public static BookService getBookService() {
-        if (bs == null) {
-            synchronized (App.class) {
-                if (bs == null) {
-                    bs = new BookService(
-                        Paths.get("resources","books.csv").toString(),
-                        Paths.get("resources","nextId","book.txt").toString());
-                }
-            }
-        }
-        return bs;
-    }
-    private static PublisherService ps;
-    public static PublisherService getPublisherService() {
-        if (ps == null) {
-            synchronized (App.class) {
-                if (ps == null) {
-                    ps = new PublisherService(
-                        Paths.get("resources", "publisher.csv").toString(),
-                        Paths.get("resources", "nextId", "publisher.txt").toString());
-                }
-            }
-        }
-        return ps;
+
+	public static AuthorService getAuthorService() {
+		return null;
+	}
+
+	public static BookService getBookService() {
+		return null;
+	}
+
+	public static PublisherService getPublisherService() {
+		return null;
     }
 }

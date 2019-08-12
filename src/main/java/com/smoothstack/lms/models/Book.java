@@ -10,7 +10,15 @@ public class Book extends BaseModel {
     private int publisherId;
     private int isbn;
     private int publicationYear;
+    private int libraryId;
 
+    public Book() {}
+    public Book(String title_, int authorId_, int publisherId_, int publicationYear_) {
+        title = title_;
+        authorId = authorId_;
+        publisherId = publisherId_;
+        publicationYear = publicationYear_;
+    }
     public String getTitle() {
         return title;
     }
@@ -49,5 +57,11 @@ public class Book extends BaseModel {
     public void setPublicationYear(int y) {
         publicationYear = y;
     }
+    public void setLibraryId(int newId) {
+        libraryId = newId;
+    }
+	public int getLibraryId() {
+		return libraryId;
+	}
     
 }

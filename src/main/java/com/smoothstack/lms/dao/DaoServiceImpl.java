@@ -2,6 +2,10 @@ package com.smoothstack.lms.dao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.List;
 
 import com.smoothstack.lms.dao.BaseModel;
@@ -74,7 +78,49 @@ public class DaoServiceImpl<T extends BaseModel> implements DaoService<T> {
 
     @Override
     public void update(BufferedReader br) {
+        printAll();
+        Class<T> c = repo.getType();
+        System.out.println("Enter the id of the "+c.getSimpleName()+" you wish to update");
+        Dao<T> obj = null;
+        do {
+            try {
+                int id = Integer.parseInt(br.readLine());
+                obj = repo.getById(id);
+                if (obj == null) {
+                    System.out.println("Must enter id of valid "+c.getSimpleName()+".");
+                    continue;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
+        } while (obj == null);
+        int i=1;
+        List<Field> fields;
+        try {
+            fields = Arrays.asList(c.getDeclaredFields());
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return;
+        }
+        fields.sort((f1, f2) -> f1.getName().compareTo(f2.getName()));
+        System.out.println("Enter the number of the field you wish to modify:");
+        for (Field f : fields) {
+            System.out.println(String.valueOf(i)+". "+f.getName());
+            i++;
+        }
+        int option = -1;
+        while (option != 0) {
+            String input;
+            try {
+                input = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            if (input == "quit") break;
 
+        }
     }
 
     @Override
@@ -84,25 +130,61 @@ public class DaoServiceImpl<T extends BaseModel> implements DaoService<T> {
 
     @Override
     public void delete(BufferedReader br) {
-
+        printAll();
+        System.out.println("Enter the id of the "+repo.getType().getSimpleName()+
+        " that you wish to delete");
     }
 
 	@Override
 	public void delete(int id) {
-		
+        repo.delete(id);
 	}
 
     @Override
     public void add(BufferedReader br) {
-        // loop over string values
-        // T.getStringFieldNames();
-        // loop over integer values
-		System.out.println("Enter an author first name");
-		// try {
-		// 	add(firstName, lastName);
-		// } catch (IOException e) {
-		// 	System.out.println(e);
-		// }
+        Class<T> c = repo.getType();
+        System.out.println("Creating new "+c.getSimpleName()+"...");
+        Field[] fields = c.getDeclaredFields();
+        T newObj;
+        try {
+            @SuppressWarnings("unchecked")
+            Constructor<T> constructor = (Constructor<T>) c.getConstructors()[0];
+            newObj = (T)constructor.newInstance();
+        } catch (
+            InstantiationException | IllegalAccessException | ClassCastException |
+            IllegalArgumentException | InvocationTargetException e
+        ) {
+            e.printStackTrace();
+            return;
+        }
+        try {
+            for (Field f : fields) {
+                f.setAccessible(true);
+                Object nextFieldData = null;
+                do {
+                    System.out.println("Enter the name of this "+c.getSimpleName()+
+                    "'s "+f.getName()+":");
+                    try {
+                        if (f.getType() == String.class) {
+                            nextFieldData = br.readLine();
+                        }
+                        else if (f.getType() == Integer.class) {
+                            nextFieldData = Integer.parseInt((String) br.readLine());
+                        } else {
+                            nextFieldData = f.getType().getConstructor(new Class[]{String.class}).newInstance(br.readLine());
+                        }
+                    } catch (
+                        IOException | InstantiationException | IllegalArgumentException | 
+                        InvocationTargetException | NoSuchMethodException | SecurityException |
+                        IllegalAccessException e
+                    ) {
+                        System.out.println("Error, try again:");
+                    }
+                } while (nextFieldData == null);
+                f.getType().cast(nextFieldData);
+                f.set(newObj, nextFieldData);
+            }
+        } catch (IllegalAccessException e) {}
+        add(newObj);
     }
-
 }

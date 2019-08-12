@@ -7,10 +7,10 @@ import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
 
 public interface DaoRepository<T extends BaseModel> {
+    public Class<T> getType();
     public List<Dao<T>> getAll();
-    public Dao<T> getById(int id) throws NoSuchElementException;
-    public List<Dao<T>> getManyById(List<Integer> l)
-        throws NoSuchElementException;
+    public Dao<T> getById(int id);
+    public List<Dao<T>> getManyById(List<Integer> l);
     public List<Dao<T>> searchByName(String s);
 
     public void create(T data);
