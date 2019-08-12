@@ -1,4 +1,4 @@
-package com.smoothstack.lms.services;
+package com.smoothstack.lms.dao;
 
 import java.io.BufferedReader;
 import java.util.List;

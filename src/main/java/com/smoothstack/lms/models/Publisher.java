@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
-import com.smoothstack.lms.repositories.DaoRepository;
+import com.smoothstack.lms.dao.DaoRepository;
 
 public class Publisher extends BaseModel {
     private String name;

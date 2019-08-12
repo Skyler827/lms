@@ -1,11 +1,12 @@
-package com.smoothstack.lms.services;
+package com.smoothstack.lms.dao;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 
 import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
-import com.smoothstack.lms.repositories.DaoRepository;
+import com.smoothstack.lms.dao.DaoRepository;
 
 public class DaoServiceImpl<T extends BaseModel> implements DaoService<T> {
     protected DaoRepository<T> repo;
@@ -35,9 +36,25 @@ public class DaoServiceImpl<T extends BaseModel> implements DaoService<T> {
 
     @Override
     public void findById(BufferedReader br) {
-        // step 1: print "enter an id to select an item"
-        // step 2: print list of items
-        // step 3: 
+        printAll();
+        // step 1: print list of items
+        // step 2: print "enter an id to select an item"
+        System.out.println("Enter an ID to select an item");
+        // step 3:
+        Dao<T> result = null;
+        do {
+            try {
+                int id = Integer.parseInt(br.readLine());
+                result = findById(id);
+                if (result == null) {
+                    System.out.println("please enter a number corresponding with a listed item");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                System.out.println("please enter a number");
+            }
+        } while (result == null);
     }
 
     @Override
@@ -62,7 +79,7 @@ public class DaoServiceImpl<T extends BaseModel> implements DaoService<T> {
 
     @Override
     public void update(int id, T data) {
-
+        repo.update(id, data);
     }
 
     @Override

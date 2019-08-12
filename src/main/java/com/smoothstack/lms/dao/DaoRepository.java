@@ -1,4 +1,4 @@
-package com.smoothstack.lms.repositories;
+package com.smoothstack.lms.dao;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,8 +16,8 @@ public interface DaoRepository<T extends BaseModel> {
     public void create(T data);
     public void createMany(List<T> data);
 
-    public void update(Dao<T> data);
-    public void updateMany(List<Dao<T>> data);
+    public void update(int id, T data);
+    public void updateMany(List<Integer> ids, List<T> data);
     public void overwriteAll(List<Dao<T>> data);
 
     public void delete(int id) throws NoSuchElementException;

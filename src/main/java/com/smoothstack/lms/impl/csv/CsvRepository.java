@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.impl.csv.CsvDao;
-import com.smoothstack.lms.repositories.DaoRepository;
+import com.smoothstack.lms.dao.DaoRepository;
 
 public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
 
@@ -205,13 +205,13 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
     }
 
     @Override
-    public void update(Dao<T> data){
+    public void update(int id, T data){
         List<CsvDao<T>> updatedData = new ArrayList<CsvDao<T>>();
         try {
             updatedData = 
             Files.lines(Paths.get(_csvFilePath)).map(line -> {try {
                 CsvDao<T> obj = new CsvDao<T>(line, type);
-                if (obj.getId() == data.getId()) {obj.setData(data.getData());}
+                if (obj.getId() == id) {obj.setData(data);}
                 return obj;
             } catch (ParseException e) {return null;}
             }).filter(record -> record != null)
@@ -223,10 +223,12 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
     }
 
     @Override
-    public void updateMany(List<Dao<T>> updatedData) {
+    public void updateMany(List<Integer> ids, List<T> data) {
         Map<Integer, T> map = new HashMap<Integer, T>();
-        for (Dao<T> obj : updatedData) {
-            map.put(obj.getId(), obj.getData());
+        Iterator<Integer> idsIt = ids.iterator();
+        Iterator<T> dataIt = data.iterator();
+        while (dataIt.hasNext()) {
+            map.put(idsIt.next(), dataIt.next());
         }
         List<CsvDao<T>> dataToWrite = new LinkedList<CsvDao<T>>();
         try (BufferedReader csvReader = new BufferedReader(new FileReader(_csvFilePath))) {
