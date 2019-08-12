@@ -7,9 +7,9 @@ import java.util.NoSuchElementException;
 
 import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.models.Author;
+import com.smoothstack.lms.repositories.DaoRepository;
 
 public class AuthorService extends DaoServiceImpl<Author> {
-
 	public AuthorService(String csvFilePath, String nextIdFilePath) {
 		super(csvFilePath, nextIdFilePath);
 	}
@@ -28,7 +28,7 @@ public class AuthorService extends DaoServiceImpl<Author> {
 				String line = br.readLine();
 				int authorId = Integer.parseInt(line);
 				try {
-					Dao<Author> a = dr.getById(authorId);
+					Dao<Author> a = repo.getById(authorId);
 					// if exists, print info and prompt for updated info
 					System.out.println("Found author with id "+authorId);
 					// then rewrite file

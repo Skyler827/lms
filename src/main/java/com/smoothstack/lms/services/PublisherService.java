@@ -2,14 +2,14 @@ package com.smoothstack.lms.services;
 
 import java.io.BufferedReader;
 
+import com.smoothstack.lms.impl.csv.CsvRepository;
 import com.smoothstack.lms.models.Publisher;
-import com.smoothstack.lms.repoimpl.CsvDaoRepository;
 import com.smoothstack.lms.repositories.DaoRepository;
 
 public class PublisherService {
     private DaoRepository<Publisher> dr;
     public PublisherService(String csvFilePath, String nextIdFilePath) {
-        dr = new CsvDaoRepository<Publisher>(csvFilePath, nextIdFilePath);
+        dr = new CsvRepository<Publisher>(csvFilePath, nextIdFilePath);
     }
 	public void list() {
     }

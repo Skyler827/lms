@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,7 +74,7 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
         } catch (IOException e) {
             System.out.println(e);
         }
-        throw new NoSuchElementException("No element found with id = "+id+".");
+        return null;
     }
 
     public int getNewId(int n) {
