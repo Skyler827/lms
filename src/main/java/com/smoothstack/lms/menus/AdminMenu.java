@@ -2,7 +2,7 @@ package com.smoothstack.lms.menus;
 
 import java.io.BufferedReader;
 
-public class AdminMenu implements MenuI {
+public class AdminMenu implements IMenu {
 
     @Override
     public void call(BufferedReader br) {
@@ -10,7 +10,7 @@ public class AdminMenu implements MenuI {
     }
 
     @Override
-    public MenuI parentMenu(BufferedReader br) {
+    public IMenu parentMenu(BufferedReader br) {
 		return null;
 	}
 

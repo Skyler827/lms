@@ -10,7 +10,13 @@ import com.smoothstack.lms.models.Loan;
 import com.smoothstack.lms.models.Book;
 
 public class Borrower extends BaseModel {
-
+    private String cardNumber;
+    public String getCardNumber() {
+        return cardNumber;
+    }
+    public void setCardNumber(String newCardNumber) {
+        this.cardNumber = newCardNumber;
+    }
     public List<Dao<Loan>> getLoans(DaoRepository<Loan> loanRepo, int id) {
         loanRepo.getAll().stream()
         .filter(l -> l.getData().getBorrowerId() == id)

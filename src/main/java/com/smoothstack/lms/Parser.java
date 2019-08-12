@@ -6,7 +6,7 @@ import java.util.List;
 import com.smoothstack.lms.App;
 import com.smoothstack.lms.Menus;
 import com.smoothstack.lms.menus.MainMenu;
-import com.smoothstack.lms.menus.MenuI;
+import com.smoothstack.lms.menus.IMenu;
 import com.smoothstack.lms.models.Author;
 import com.smoothstack.lms.models.Book;
 import com.smoothstack.lms.models.Publisher;
@@ -17,7 +17,7 @@ import com.smoothstack.lms.services.PublisherService;
 public class Parser {
     static void parse(String[] args) {
         if (args.length == 0) {
-            MenuI main = new MainMenu();
+            IMenu main = new MainMenu();
             main.call(Menus.getBufferedReader());
             return;
         }

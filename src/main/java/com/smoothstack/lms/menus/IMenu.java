@@ -2,7 +2,7 @@ package com.smoothstack.lms.menus;
 
 import java.io.BufferedReader;
 
-public interface MenuI {
+public interface IMenu {
     public void call(BufferedReader br);
-    public MenuI parentMenu(BufferedReader br);
+    public IMenu parentMenu(BufferedReader br);
 }

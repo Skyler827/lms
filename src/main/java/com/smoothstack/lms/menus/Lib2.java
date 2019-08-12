@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 
 import com.smoothstack.lms.services.LibraryService;
 
-public class Lib2 implements MenuI {
+public class Lib2 implements IMenu {
 
     @Override
     public void call(BufferedReader br) {
@@ -12,7 +12,7 @@ public class Lib2 implements MenuI {
     }
 
     @Override
-    public MenuI parentMenu(BufferedReader br) {
+    public IMenu parentMenu(BufferedReader br) {
 		return null;
 	}
 

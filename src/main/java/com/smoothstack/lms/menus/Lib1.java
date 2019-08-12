@@ -3,9 +3,9 @@ package com.smoothstack.lms.menus;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import com.smoothstack.lms.menus.MenuI;
+import com.smoothstack.lms.menus.IMenu;
 
-public class Lib1 implements MenuI {
+public class Lib1 implements IMenu {
 
     @Override
     public void call(BufferedReader br) {
@@ -26,7 +26,7 @@ public class Lib1 implements MenuI {
     }
 
     @Override
-	public MenuI parentMenu(BufferedReader br) {
+	public IMenu parentMenu(BufferedReader br) {
 		return null;
 	}
 

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 
 import com.smoothstack.lms.dao.BaseModel;
 
-public class AddUpdateDeleteMenu<T extends BaseModel> implements MenuI {
+public class AddUpdateDeleteMenu<T extends BaseModel> implements IMenu {
 
     @Override
     public void call(BufferedReader br) {
@@ -12,7 +12,7 @@ public class AddUpdateDeleteMenu<T extends BaseModel> implements MenuI {
     }
 
     @Override
-    public MenuI parentMenu(BufferedReader br) {
+    public IMenu parentMenu(BufferedReader br) {
 		return null;
 	}
 
