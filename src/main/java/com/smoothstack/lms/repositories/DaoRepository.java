@@ -9,7 +9,7 @@ import com.smoothstack.lms.dao.Dao;
 public interface DaoRepository<T extends BaseModel> {
     public List<Dao<T>> getAll();
     public Dao<T> getById(int id) throws NoSuchElementException;
-    public List<Dao<T>> getManyById(List<Integer> l, boolean continueOnInvalidId)
+    public List<Dao<T>> getManyById(List<Integer> l)
         throws NoSuchElementException;
     public List<Dao<T>> searchByName(String s);
 
@@ -21,7 +21,7 @@ public interface DaoRepository<T extends BaseModel> {
     public void overwriteAll(List<Dao<T>> data);
 
     public void delete(int id) throws NoSuchElementException;
-    public void deleteMany(List<Integer> ids, boolean continueOnInvalidId) 
+    public void deleteMany(List<Integer> ids) 
         throws NoSuchElementException;
     public void deleteAll();
 }

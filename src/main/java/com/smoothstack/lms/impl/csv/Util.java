@@ -1,10 +1,10 @@
-package com.smoothstack.lms.impl;
+package com.smoothstack.lms.impl.csv;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvParser {
+public class Util {
     public static List<String> parse(String csvRow) throws ParseException {
         ArrayList<String> entries = new ArrayList<String>();
         StringBuilder currentEntry = new StringBuilder();
