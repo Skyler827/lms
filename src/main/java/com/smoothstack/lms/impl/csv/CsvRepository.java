@@ -78,37 +78,42 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
         throw new NoSuchElementException("No element found with id = "+id+".");
     }
 
-    public int getNewId(int n) throws IOException {
-        // read from file
-        FileReader reader = new FileReader(_idCounterFilePath);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        String line = bufferedReader.readLine();
-        int nextId;
+    public int getNewId(int n) {
         try {
-            nextId = Integer.parseInt(line);
-            reader.close();
-        } catch (NumberFormatException e) {
-            reader.close();
-            // recover the file
-            int maxId = 1;
-            try (BufferedReader csvReader = new BufferedReader(new FileReader(_csvFilePath))) {
-                String row;
-                while ((row = csvReader.readLine()) != null) {
-                    try {
-                        CsvDao<T> obj = new CsvDao<T>(row, type);
-                        if (obj.getId() > maxId) maxId = obj.getId();
-                    } catch (ParseException e2) {}
+            // read from file
+            FileReader reader = new FileReader(_idCounterFilePath);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line = bufferedReader.readLine();
+            int nextId;
+            try {
+                nextId = Integer.parseInt(line);
+                reader.close();
+            } catch (NumberFormatException e) {
+                reader.close();
+                // recover the file
+                int maxId = 1;
+                try (BufferedReader csvReader = new BufferedReader(new FileReader(_csvFilePath))) {
+                    String row;
+                    while ((row = csvReader.readLine()) != null) {
+                        try {
+                            CsvDao<T> obj = new CsvDao<T>(row, type);
+                            if (obj.getId() > maxId) maxId = obj.getId();
+                        } catch (ParseException e2) {}
+                    }
                 }
+                nextId = maxId+1;
             }
-            nextId = maxId+1;
+            FileWriter writer = new FileWriter(_idCounterFilePath);
+            writer.write(String.valueOf(nextId+n));
+            writer.write(System.lineSeparator());
+            writer.close();
+            return nextId;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
         }
-        FileWriter writer = new FileWriter(_idCounterFilePath);
-        writer.write(String.valueOf(nextId+n));
-        writer.write(System.lineSeparator());
-        writer.close();
-        return nextId;
     }
-    public int getNewId() throws IOException {
+    public int getNewId() {
         return getNewId(1);
     }
 
@@ -182,7 +187,7 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
 
     @Override
     public void create(T data) {
-        int id = getNewId();
+        int id = getNewId(1);
         CsvDao<T> obj = new CsvDao<T>(id, data);
         ArrayList<CsvDao<T>> L = new ArrayList<CsvDao<T>>(1);
         L.add(obj);
@@ -193,7 +198,7 @@ public class CsvRepository<T extends BaseModel> implements DaoRepository<T> {
     public void createMany(List<T> dataList) {
         List<CsvDao<T>> newObjects = new LinkedList<CsvDao<T>>();
         Iterator<T> dataIterator = dataList.iterator();
-        int nextId = getNewId();
+        int nextId = getNewId(dataList.size());
         for (int id = nextId; id < nextId+dataList.size(); id++) {
             newObjects.add(new CsvDao<T>(id, dataIterator.next()));
         }
