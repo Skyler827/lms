@@ -1,9 +1,10 @@
 package com.smoothstack.lms.models;
 
+import com.smoothstack.lms.dao.BaseModel;
 import com.smoothstack.lms.dao.Dao;
 import com.smoothstack.lms.dao.DaoRepository;
 
-public class BookSupply {
+public class BookSupply extends BaseModel {
     private int bookId;
     private int libraryId;
     private int stock;
