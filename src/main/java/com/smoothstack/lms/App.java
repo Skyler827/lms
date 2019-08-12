@@ -31,16 +31,4 @@ public class App {
             System.out.println(e);
         }
     }
-
-	public static AuthorService getAuthorService() {
-		return null;
-	}
-
-	public static BookService getBookService() {
-		return null;
-	}
-
-	public static PublisherService getPublisherService() {
-		return null;
-    }
 }

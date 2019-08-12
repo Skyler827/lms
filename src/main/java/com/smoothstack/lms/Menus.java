@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.smoothstack.lms.services.AuthorService;
+import com.smoothstack.lms.services.BookService;
+import com.smoothstack.lms.services.PublisherService;
+
 public class Menus {
     private static BufferedReader _reader;
     public static BufferedReader getBufferedReader() {
@@ -16,13 +20,22 @@ public class Menus {
         }
         return _reader;
     }
+    /**
+     * for all menus given below, a user may enter an integer to make a choice
+     * these functions are called with integer arguments to indicate a choice may be made in advance
+     * the first argument is the immediate choice,
+     * later arguments are subsequent choices
+     * either hard coded types or IDs
+     * -1 means no choice has been made yet, and the user will be prompted
+     */
     static void mainMenu() {
         mainMenu(-1);
     }
     static void mainMenu(int n) {
-        mainMenu(n, -1);
+        adminMenu(n, -1);
     }
-    static void mainMenu(int mainChoice, int subChoice) {
+    // static void
+    static void adminMenu(int mainChoice, int subChoice) {
         /**
          * the choice integer represents the menu choices available to a user
          * choice =  0 means exiting the menu
@@ -31,19 +44,21 @@ public class Menus {
          *            immediately got to the next menu
          */
         int choice = mainChoice;
-        System.out.println("Welcome to the Library Management System");
+        System.out.println(
+            "Welcome to the GCIT Library Management System. "+
+            "Which category of a user are you?");
         String[] menu = new String[] {
             "Enter a number to select an operation:/n",
-            "1.) List all Authors/Books/Publishers",
-            "2.) Search Authors/Books/Publishers by name",
-            "3.) Add a new Author/Book/Publisher",
-            "4.) Update an existing Author/Book/Publisher",
-            "5.) Delete an existing Author/Book/Publisher",
+            "1.) Add/Update/Delete Book",
+            "2.) Add/Update/Delete Author",
+            "3.) Add/Update/Delete Library",
+            "4.) Add/Update/Delete Borrower",
+            "5.) Add/Update/Delete Book Loans",
             "0.) Exit"
         };
+        for (String s : menu) {System.out.println(s);}
         do {
             if (choice < 0) {
-                for (String s : menu) {System.out.println(s);}
                 try {
                     String s = getBufferedReader().readLine();
                     choice = Integer.parseInt(s);
@@ -69,7 +84,7 @@ public class Menus {
         System.out.println("Goodbye");
     }
     static void list() {
-        mainMenu(1, -1);
+        adminMenu(1, -1);
     }
     static void list(int choice) {
         String[] menu = new String[] {
@@ -92,15 +107,15 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: App.getAuthorService().list(); break;
-            case 2: App.getBookService().list(); break;
-            case 3: App.getPublisherService().list(); break;
+            case 1: AuthorService.getAuthorService().list(); break;
+            case 2: BookService.getBookService().list(); break;
+            case 3: PublisherService.getPublisherService().list(); break;
             default: System.out.println("Selection out of range\n");
             }
         } while (choice != 0);
     }
     static void search() {
-        mainMenu(2, -1);
+        adminMenu(2, -1);
     }
     static void search(int choice) {
         String[] menu = new String[] {
@@ -123,15 +138,15 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: App.getAuthorService().search(getBufferedReader()); break;
-            case 2: App.getBookService().search(getBufferedReader()); break;
-            case 3: App.getPublisherService().search(getBufferedReader()); break;
+            case 1: AuthorService.getAuthorService().search(getBufferedReader()); break;
+            case 2: BookService.getBookService().search(getBufferedReader()); break;
+            case 3: PublisherService.getPublisherService().search(getBufferedReader()); break;
             default: System.out.println("Selection out of range");
             }
         } while (choice != 0);
     }
     static void add() {
-        mainMenu(3, -1);
+        adminMenu(3, -1);
     }
     static void add(int choice) {
         String[] menu = new String[] {
@@ -154,15 +169,15 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: App.getAuthorService().add(getBufferedReader()); break;
-            case 2: App.getBookService().add(getBufferedReader()); break;
-            case 3: App.getPublisherService().add(getBufferedReader()); break;
+            case 1: AuthorService.getAuthorService().add(getBufferedReader()); break;
+            case 2: BookService.getBookService().add(getBufferedReader()); break;
+            case 3: PublisherService.getPublisherService().add(getBufferedReader()); break;
             default: System.out.println("Selection out of range.");
             }
         } while (choice != 0);
     }
     static void update() {
-        mainMenu(4, -1);
+        adminMenu(4, -1);
     }
     static void update(int choice) {
         String[] menu = new String[] {
@@ -185,14 +200,14 @@ public class Menus {
             }
             switch (choice) {
                 case 0: break;
-                case 1: App.getAuthorService().update(getBufferedReader());
-                case 2: App.getBookService().update(getBufferedReader());
-                case 3: App.getPublisherService().update(getBufferedReader());
+                case 1: AuthorService.getAuthorService().update(getBufferedReader());
+                case 2: BookService.getBookService().update(getBufferedReader());
+                case 3: PublisherService.getPublisherService().update(getBufferedReader());
             }
         } while (choice != 0);
     }
     static void delete() {
-        mainMenu(5, -1);
+        adminMenu(5, -1);
     }
     static void delete(int choice) {
         String[] menu = new String[] {
@@ -215,9 +230,9 @@ public class Menus {
             }
             switch (choice) {
             case 0: break;
-            case 1: App.getAuthorService().delete(getBufferedReader()); break;
-            case 2: App.getBookService().delete(getBufferedReader()); break;
-            case 3: App.getPublisherService().delete(getBufferedReader()); break;
+            case 1: AuthorService.getAuthorService().delete(getBufferedReader()); break;
+            case 2: BookService.getBookService().delete(getBufferedReader()); break;
+            case 3: PublisherService.getPublisherService().delete(getBufferedReader()); break;
             default: System.out.println("Selection out of range");
             }
         } while (choice != 0);
